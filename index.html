@@ -1,1 +1,343 @@
+<!DOCTYPE html>
+<html>
 
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<style type="text/css">
+			.box0 {
+				margin: 50px auto;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				width: 140px;
+				height: 140px;
+				background: black;
+				position: relative;
+				-webkit-animation: boxX0 4s cubic-bezier(.3, 1.09, .54, .48);
+				animation: boxX0 4s cubic-bezier(.3, 1.09, .54, .48);
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+			}
+			
+			@-webkit-keyframes boxX0 {
+				from {
+					-webkit-transform: rotate(0deg);
+					transform: rotate(0deg);
+				}
+				to {
+					-webkit-transform: rotate(180deg);
+					transform: rotate(180deg);
+				}
+			}
+			
+			@keyframes boxX0 {
+				from {
+					-webkit-transform: rotate(0deg);
+					transform: rotate(0deg);
+				}
+				to {
+					-webkit-transform: rotate(180deg);
+					transform: rotate(180deg);
+				}
+			}
+			
+			.inner0 {
+				width: 82px;
+				height: 114px;
+				background: white;
+				position: relative;
+				margin: auto;
+				-webkit-animation: innerX0 2s ease;
+				animation: innerX0 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes innerX0 {
+				from {
+					width: 82px;
+					height: 114px;
+				}
+				to {
+					width: 124px;
+					height: 124px;
+				}
+			}
+			
+			@keyframes innerX0 {
+				from {
+					width: 82px;
+					height: 114px;
+				}
+				to {
+					width: 124px;
+					height: 124px;
+				}
+			}
+			
+			.doteBox1 {
+				width: 38px;
+				height: 0px;
+				left: 24px;
+				background: black;
+				position: absolute;
+				border: black solid 0px;
+				-webkit-animation: BoxX1 2s ease;
+				animation: BoxX1 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX1 {
+				from {}
+				to {
+					width: 5px;
+					height: 103px;
+					left: 72px;
+				}
+			}
+			
+			@keyframes BoxX1 {
+				from {}
+				to {
+					width: 5px;
+					height: 103px;
+					left: 72px;
+				}
+			}
+			
+			.doteBox2 {
+				background: black;
+				width: 22px;
+				height: 0px;
+				left: 62px;
+				top: 0;
+				position: absolute;
+				border: black solid 0px;
+				-webkit-animation: BoxX2 2s ease;
+				animation: BoxX2 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX2 {
+				from {}
+				to {
+					width: 50px;
+					height: 50px;
+					top: 10;
+					left: 76px;
+				}
+			}
+			
+			@keyframes BoxX2 {
+				from {}
+				to {
+					width: 50px;
+					height: 50px;
+					top: 10;
+					left: 76px;
+				}
+			}
+			
+			.doteBox3 {
+				/*float: right;*/
+				/*top: 0px;*/
+				background: black;
+				width: 30px;
+				height: 0px;
+				top: 0px;
+				left: 32px;
+				position: absolute;
+				border: black solid 0px;
+				-webkit-animation: BoxX3 2s ease;
+				animation: BoxX3 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX3 {
+				from {}
+				to {
+					width: 33px;
+					height: 43px;
+					left: 72px;
+					top: 60px;
+				}
+			}
+			
+			@keyframes BoxX3 {
+				from {}
+				to {
+					width: 33px;
+					height: 43px;
+					left: 72px;
+					top: 60px;
+				}
+			}
+			
+			.doteBox4 {
+				width: 38px;
+				height: 0px;
+				left: 22px;
+				top: 115px;
+				background: black;
+				border: black solid 0px;
+				position: absolute;
+				-webkit-animation: BoxX4 2s ease;
+				animation: BoxX4 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX4 {
+				from {}
+				to {
+					width: 5px;
+					height: 105px;
+					left: 48px;
+					top: 19px;
+				}
+			}
+			
+			@keyframes BoxX4 {
+				from {}
+				to {
+					width: 5px;
+					height: 105px;
+					left: 48px;
+					top: 19px;
+				}
+			}
+			
+			.doteBox5 {
+				background: black;
+				width: 22px;
+				height: 0px;
+				left: 0px;
+				top: 115px;
+				position: absolute;
+				border: black solid 0px;
+				-webkit-animation: BoxX5 2s ease;
+				animation: BoxX5 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX5 {
+				from {}
+				to {
+					width: 50px;
+					height: 52px;
+					left: 0px;
+					top: 72px;
+				}
+			}
+			
+			@keyframes BoxX5 {
+				from {}
+				to {
+					width: 50px;
+					height: 52px;
+					left: 0px;
+					top: 72px;
+				}
+			}
+			
+			.doteBox6 {
+				background: black;
+				width: 30px;
+				height: 0px;
+				top: 115px;
+				left: 24px;
+				border: black solid 0px;
+				position: absolute;
+				-webkit-animation: BoxX6 2s ease;
+				animation: BoxX6 2s ease;
+				-webkit-animation-fill-mode: forwards;
+				animation-fill-mode: forwards;
+				-webkit-animation-iteration-count: infinite;
+				animation-iteration-count: infinite;
+				-webkit-animation-direction: alternate;
+				animation-direction: alternate;
+			}
+			
+			@-webkit-keyframes BoxX6 {
+				from {}
+				to {
+					width: 33px;
+					height: 43px;
+					left: 16px;
+					top: 19px;
+				}
+			}
+			
+			@keyframes BoxX6 {
+				from {}
+				to {
+					width: 33px;
+					height: 43px;
+					left: 16px;
+					top: 19px;
+				}
+			}
+			.mx{
+				display: flex;
+			}
+			.mx>*{
+				margin: auto;
+			}
+		</style>
+			<div class="mx">
+				<h2>谢祎娃你个瓜婆娘</h2>
+			</div>
+		<div class="box0">
+			<div class="inner0">
+				<div class="doteBox1">
+				</div>
+				<div class="doteBox2">
+				</div>
+				<div class="doteBox3">
+				</div>
+				<div class="doteBox4">
+				</div>
+				<div class="doteBox5">
+				</div>
+				<div class="doteBox6">
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
