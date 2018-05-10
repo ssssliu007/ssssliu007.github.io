@@ -7,14 +7,132 @@
 </head>
 
 <body>
-
-	<style type="text/css">
-		* {
-			margin: 0;
-			padding: 0;
-			list-style-type: none;
-		}
-
+	<style>
+        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
+        body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
+        td,th,caption { font-size:14px; }
+        h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
+        address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
+        a { color:#555; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        img { border:none; }
+        ol,ul,li { list-style:none; }
+        input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
+        table { border-collapse:collapse; }
+        html {overflow-y: scroll;}
+        .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
+        .clearfix { *zoom:1; }
+        body{
+            background: #ddd;
+        }
+        #nav{
+            background: #ccc;
+        }
+        .section#vueT input{
+            width: 300px;
+            height: 25px;
+            background: rgb(172, 26, 26);
+            outline: 1px red solid;
+        }
+        #btn{
+            display: flex;
+            overflow: hidden;
+            width: 300px;
+            flex: initial;
+            justify-content: space-evenly;
+            border: greenyellow solid 1px;
+        }
+        #btn button{
+            height: auto;
+        }
+        .section#vueT button{
+            width: 80px;
+            height: 30px;
+            background: #ff6600;
+            border: none;
+            border-radius: 7px;
+        }
+        .gameBox{
+            width: 100%;
+            position: relative;
+        }
+        .box{
+            display: flex;
+            position: relative;
+            border-radius: 10px;
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-content: space-evenly;
+            background: #f5a671;
+            -webkit-user-select: none; 
+            -moz-user-select: none;    
+            -khtml-user-select: none;  
+            -ms-user-select: none;    
+            -o-user-select: none;
+            user-select: none;  
+        }
+        .gameBox li{
+            width: 21%;
+            height: 21%;
+            border-radius: 6px;
+            background: #ddb56b;
+            line-height: 2.1em;
+            font-size: 50px;
+            text-align: center;
+        }
+        .gameBox li div{
+            border-radius: 6px;
+        }
+        .gameBox .lv0{
+            color: transparent;
+        }
+        .gameBox .lv2{
+            background: #d8eef1;
+        }
+        .gameBox .lv4{
+            background: #bff7ed;
+        }
+        .gameBox .lv8{
+            background: #83d2fe;
+        }
+        .gameBox .lv16{
+            color: #fff;
+            background: #52a3f3;
+        }
+        .gameBox .lv32{
+            color: #fff;
+            background: #4a24cc;
+        }
+        .gameBox .lv64{
+            color: #fff;
+            background: #92529c;
+        }
+        .gameBox .lv128{
+            color: #fff;
+            background: #ce2d96;
+        }
+        .bronAn{
+            animation: bAn 300ms;
+        }
+        @keyframes bAn{
+            0%  {transform: scale(0.9);}
+            100% {transform: scale(1);}
+        }
+        .erroAn{
+            position: relative;
+            animation: eAn 300ms;
+        }
+        @keyframes eAn{
+            0%  {left: 0;right: 0;}
+            10%  {left: 20px;right: 0;}
+            40%  {right: 20px;left: 0;}
+            60%  {left: 20px;right: 0;}
+            90%  {right: 20px;left: 0;}
+            100%  {left: 0px;right: 0;}
+        }
 		.box0 {
 			margin: 50px auto;
 			display: -webkit-box;
@@ -355,7 +473,257 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+        <script>
+            var newOne = [];
+            var values = [];
+            var box = [];
+            //规格
+            var racNXN;
+			racNXN = 4
+			rac(racNXN)
+			function rac(rac){
+				for (i = 1; i < rac+1; i++) {
+					for(j = 1;j<rac+1;j++){
+						box.push("b"+i+"-"+j);
+					}
+				}
+				values.length = rac*rac;
+			}
+            var vGame = new Vue({
+                el:"#box",
+                data:{
+                    box,
+                    values,
+                    newOne
+                },
+                methods:{
+                }
+            })
+            var box = document.querySelector("#gameBox");
+            var moveFlag,setx,sety;
+            box.addEventListener("mousedown",function(e){
+                moveFlag = true;
+                setx = e.clientX;
+                sety = e.clientY;
+            },false);
+            box.addEventListener("mousemove",function(e){
+                if(moveFlag){
+                    var x,y;
+                    x = setx-e.clientX;
+                    y = sety - e.clientY;
 
+                    if (Math.abs(x)>100||Math.abs(y)>100) {
+                        if (Math.abs(x)>Math.abs(y)) {
+                            if(x>0){
+                                toMove(4);
+                            }else{
+                                toMove(2)
+                            }
+                        }else{
+                            if(y>0){
+                                toMove(1)
+                            }else{
+                                toMove(3)
+                            }
+                        }
+                    }
+                }
+            },false);
+            box.addEventListener("mouseup",function(e){
+                moveFlag = false;
+            },false);
+            box.addEventListener("touchstart",function(e){
+                moveFlag = true;
+                setx = e.touches[0].clientX;
+                sety = e.touches[0].clientY;
+            },false);
+            box.addEventListener("touchmove",function(e){
+                if(moveFlag){
+                    var x,y;
+                    x = setx - e.touches[0].clientX;
+                    y = sety - e.touches[0].clientY;
+
+                    if (Math.abs(x)>100||Math.abs(y)>100) {
+                        if (Math.abs(x)>Math.abs(y)) {
+                            if(x>0){
+                                toMove(4);
+                            }else{
+                                toMove(2)
+                            }
+                        }else{
+                            if(y>0){
+                                toMove(1)
+                            }else{
+                                toMove(3)
+                            }
+                        }
+                    }
+                }
+            },false);
+            box.addEventListener("mouseup",function(e){
+                moveFlag = false;
+            },false);
+
+
+            // 初始随机生成4个
+            var init4 = [];
+            var ran16 = []
+            for(i=1;i<17;i++){
+                ran16.push(i)
+            }
+            for(i=0;i<4;i++){
+                init4.push(ran16.splice(parseInt(Math.random()*(16-i)),1)[0])
+            }
+            for ( k in init4) {
+                vGame.values.splice(init4[k]-1,1,(parseInt(Math.random()*2)+1)*2)
+            }
+            for ( k in ran16) {
+                vGame.values.splice(ran16[k]-1,1,0)
+            }
+            // 上右下左1234 移动法则
+            function toMove (goTo){
+                moveFlag = false;
+                var newV = [];
+                if(goTo==1){
+                    str =0;
+                    strh =0;
+                    sa =1;
+                    ha =1;
+                }else if(goTo==2){
+                    str =0;
+                    strh =3;
+                    sa =1;
+                    ha =-1;
+                }else if(goTo==3){
+                    str =3;
+                    strh =0;
+                    sa =-1;
+                    ha =1;
+                }else if(goTo==4){
+                    str =0;
+                    strh =0;
+                    sa =1;
+                    ha =1;
+                }
+                if(goTo==2||goTo==4){
+                    for(s=str;s<4&&s>-1;){
+                            var stg = [];
+                            for(h=strh;h<4&&h>-1;){
+                                if(values[s*4+h]>1){
+                                    stg.push(values[s*4+h])
+                                }
+                                h = h+ha
+                            }
+                            for(p=0;stg[++p];){
+                                if(stg[p-1]==stg[p]){
+                                    stg[p-1]+=stg[p];
+                                    stg.splice(p,1)
+                                }
+                            }
+                            for(i=0,p=(4-stg.length);i<p;i++){
+                                stg.push(0)
+                            }
+                            if(goTo==2){
+                                stg = stg.reverse();
+                            }
+                            newV = newV.concat(stg)
+                            s = s+sa;
+                        }
+                }
+                if(goTo==1||goTo==3){
+                    for(h=strh;h<4&&h>-1;){
+                            var stg = [];
+                            for(s=str;s<4&&s>-1;){
+                                if(values[s*4+h]>1){
+                                    stg.push(values[s*4+h])
+                                }
+                                s = s+sa;
+                            }
+                            for(p=0;stg[++p];){
+                                if(stg[p-1]==stg[p]){
+                                    stg[p-1]+=stg[p];
+                                    stg.splice(p,1);
+                                }
+                            }
+                            for(i=0,p=(4-stg.length);i<p;i++){
+                                stg.push(0)
+                            }
+                            if(goTo==3){
+                                stg = stg.reverse();
+                            }
+                            for(i=0,p = stg.length;i<p;i++){
+                                newV[i*4+h] = stg[i];
+                            }
+                            h = h+ha;
+                        }
+                }
+                
+                for(ak in newV){
+                    if(newV[ak]!=values[ak]){
+                        radNew(goTo,newV,1);
+                        break;
+                    }
+                    if(ak==newV.length-1){
+                        var org = document.querySelector("#box").className;
+                        document.querySelector("#box").className+=" erroAn";
+                        console.log(org);
+                        setTimeout(function(){
+                            document.querySelector("#box").className = org;
+                        },300)
+                    }
+                    
+                }
+                values.length=0;
+                for(ind in newV){
+                    values.push(newV[ind])
+                }
+            }
+            // 随机生新
+            function radNew(goTo,list,nums){
+                var raN;
+                raN = parseInt(Math.random()*2+1)*2;
+                switch (goTo) {
+                    case 1:
+                        pick8(0,2,2)
+                    break;
+                    case 2:
+                        pick8(0,0,0)
+                    break;
+                    case 3:
+                        pick8(0,0,2)
+                    break;
+                    case 4:
+                        pick8(2,0,0)
+                    break;
+                
+                }
+                function pick8(hs,ss,ph){ 
+                    var pi8 =[];
+                    var piNum =[]
+                    var ps;
+                    ps = 2-ph;
+                    for(i=ss;i<ss+2+ps;i++){
+                        for(j=hs;j<hs+2+ph;j++){
+                            if(list[i*4+j]==0){
+                                pi8.push(i*4+j);
+                            }
+                        }
+                    }
+                    for(i=0;i<nums;i++){
+                        piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
+                    }
+                    newOne.length = 16;
+                    for(ak in piNum){
+                        list.splice(piNum[ak],1,raN);
+                        vGame.newOne.splice(piNum[ak],1,"bronAn");
+                        setTimeout(() => {
+                            vGame.newOne.splice(piNum[ak],1,"");
+                        }, 300);
+                    }
+                }
+            }
+        </script>
 	<script id="sakura_point_vsh" type="x-shader/x_vertex">
 			uniform mat4 uProjection;
 			uniform mat4 uModelview;
