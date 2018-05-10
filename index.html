@@ -472,6 +472,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="gameBox" id="gameBox">
+			<ul class="box" id="box" v-model="values">
+				<li v-for="pv,index in box"  >
+					<div v-bind:class="[pv,'lv'+values[index],newOne[index]]">
+						{{values[index]}}
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
         <script>
