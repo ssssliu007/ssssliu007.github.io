@@ -888,20 +888,14 @@ function stopDrop() {
             }
             // 随机生新
             function radNew(goTo,list,nums){
-
+                var raN;
+                raN = parseInt(Math.random()*2+1)*2;
 				// 存储棋谱；
 				var lastVal=[];
 				for(ak in values){
 					lastVal[ak] = values[ak];
 				}
-				reBackup.push(lastVal);
-				reB.setAttribute("style","");
-				if (reBackup[3]){
-				reBackup.shift();
-				}
 
-                var raN;
-                raN = parseInt(Math.random()*2+1)*2;
                 switch (goTo) {
                     case 1:
                         pick8(0,2,2)
@@ -917,22 +911,53 @@ function stopDrop() {
                     break;
                 
                 }
+				// 存储棋谱2；
+				reBackup.push(lastVal);
+				reB.setAttribute("style","");
+				if (reBackup[3]){
+				reBackup.shift();
+				}
+
                 function pick8(hs,ss,ph){ 
-                    var pi8 =[];
-                    var piNum =[]
-                    var ps;
-                    ps = 2-ph;
-                    for(i=ss;i<ss+2+ps;i++){
-                        for(j=hs;j<hs+2+ph;j++){
-                            if(list[i*4+j]==0){
-                                pi8.push(i*4+j);
-                            }
-                        }
-                    }
-                    for(i=0;i<nums;i++){
-                        piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
-                    }
+                    var piNum =[];
+					if(backUpRe[0]){
+						if(goTo==backUpRe[backUpRe.length-1].goTo){
+							var last = backUpRe.pop();
+							piNum = last.piNum;
+							raN = last.raN;
+						}else{
+							backUpRe.length=0;
+							var pi8 =[];
+							var ps;
+							ps = 2-ph;
+							for(i=ss;i<ss+2+ps;i++){
+								for(j=hs;j<hs+2+ph;j++){
+									if(list[i*4+j]==0){
+										pi8.push(i*4+j);
+									}
+								}
+							}
+							for(i=0;i<nums;i++){
+								piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
+							}
+						}
+					}else{
+						var pi8 =[];
+						var ps;
+						ps = 2-ph;
+						for(i=ss;i<ss+2+ps;i++){
+							for(j=hs;j<hs+2+ph;j++){
+								if(list[i*4+j]==0){
+									pi8.push(i*4+j);
+								}
+							}
+						}
+						for(i=0;i<nums;i++){
+							piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
+						}
+					}
                     newOne.length = 16;
+
                     for(ak in piNum){
                         list.splice(piNum[ak],1,raN);
                         vGame.newOne.splice(piNum[ak],1,"bronAn");
@@ -940,12 +965,26 @@ function stopDrop() {
                             vGame.newOne.splice(piNum[ak],1,"");
                         }, 300);
                     }
+					
+					// 存储棋谱3  {细节操作}
+					lastVal.push({
+						goTo:goTo,
+						raN:raN,
+						piNum:piNum
+					})
+					console.log(lastVal)
                 }
 
             }
 
-			// 悔棋操作
+			// 悔棋操作 棋谱池
 			var reBackup = [];
+
+			// 储存悔棋后 之前随机生成的方块位子 
+			var backUpRe = [];
+			// var backUpNum = 0;
+			// PS：如果执行相同操作 
+			// 将生成之前相同的方块，而不是随机生成新的
 			var reB = document.querySelector("#reB");
 			reB.addEventListener("touched",reBack,true);
 			reB.addEventListener("click",reBack,true);
@@ -953,13 +992,14 @@ function stopDrop() {
 				if(reBackup[0]){
 					var backTo;
 					backTo = reBackup.pop();
-					for(ak in backTo){
+					backUpRe.push(backTo[backTo.length-1]);
+					for(ak in values){
 						values.splice(ak,1,backTo[ak])
 					}
 				}
 				if(!reBackup[0]){
 					reB.setAttribute("style","display:none");
-				}	
+				}
 			}
 			// js动画
 			function animate(obj, css, interval, speedFactor, func) {
