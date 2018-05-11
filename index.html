@@ -9,94 +9,203 @@
 
 <body>
 	<style>
-        body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
-        body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
-        td,th,caption { font-size:14px; }
-        h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
-        address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
-        a { color:#555; text-decoration:none; }
-        a:hover { text-decoration:underline; }
-        img { border:none; }
-        ol,ul,li { list-style:none; }
-        input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
-        table { border-collapse:collapse; }
-        html {overflow-y: scroll;}
-        .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-        .clearfix { *zoom:1; }
-        body{
-            background: #ddd;
-        }
-        #nav{
-            background: #ccc;
-        }
-        .section#vueT input{
-            width: 300px;
-            height: 25px;
-            background: rgb(172, 26, 26);
-            outline: 1px red solid;
-        }
-        #btn{
-            display: flex;
-            overflow: hidden;
-            width: 300px;
-            flex: initial;
-            justify-content: space-evenly;
-            border: greenyellow solid 1px;
-        }
-        #btn button{
-            height: auto;
-        }
-        .section#vueT button{
-            width: 80px;
-            height: 30px;
-            background: #ff6600;
-            border: none;
-            border-radius: 7px;
-        }
-        .gameBox{
-            width: 100%;
-            position: relative;
-        }
-        .box{
-            display: flex;
-            position: relative;
-            border-radius: 10px;
-            margin: 0 auto;
-            width: 20rem;
-            height: 20rem;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-content: space-evenly;
-            background: #f5a671;
-            -webkit-user-select: none; 
-            -moz-user-select: none;    
-            -khtml-user-select: none;  
-            -ms-user-select: none;    
-            -o-user-select: none;
-            user-select: none;  
-        }
-        .gameBox li{
-            width: 70px;
-            height: 70px;
-            border-radius: 6px;
-            background: #ddb56b;
+		body,
+		div,
+		dl,
+		dt,
+		dd,
+		ul,
+		ol,
+		li,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		pre,
+		code,
+		form,
+		fieldset,
+		legend,
+		input,
+		button,
+		textarea,
+		p,
+		blockquote,
+		th,
+		td {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: #fff;
+			color: #555;
+			font-size: 14px;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+		}
+
+		td,
+		th,
+		caption {
+			font-size: 14px;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-weight: normal;
+			font-size: 100%;
+		}
+
+		address,
+		caption,
+		cite,
+		code,
+		dfn,
+		em,
+		strong,
+		th,
+		var {
+			font-style: normal;
+			font-weight: normal;
+		}
+
+		a {
+			color: #555;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		img {
+			border: none;
+		}
+
+		ol,
+		ul,
+		li {
+			list-style: none;
+		}
+
+		input,
+		textarea,
+		select,
+		button {
+			font: 14px Verdana, Helvetica, Arial, sans-serif;
+		}
+
+		table {
+			border-collapse: collapse;
+		}
+
+		html {
+			overflow-y: scroll;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0;
+			clear: both;
+			visibility: hidden;
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		body {
+			background: #ddd;
+		}
+
+		#nav {
+			background: #ccc;
+		}
+
+		.section#vueT input {
+			width: 300px;
+			height: 25px;
+			background: rgb(172, 26, 26);
+			outline: 1px red solid;
+		}
+
+		#btn {
+			display: flex;
+			overflow: hidden;
+			width: 300px;
+			flex: initial;
+			justify-content: space-evenly;
+			border: greenyellow solid 1px;
+		}
+
+		#btn button {
+			height: auto;
+		}
+
+		.section#vueT button {
+			width: 80px;
+			height: 30px;
+			background: #ff6600;
+			border: none;
+			border-radius: 7px;
+		}
+
+		.gameBox {
+			width: 100%;
+			position: relative;
+		}
+
+		.box {
+			display: flex;
+			position: relative;
+			border-radius: 10px;
+			margin: 0 auto;
+			width: 20rem;
+			height: 20rem;
+			flex-wrap: wrap;
+			justify-content: space-evenly;
+			align-content: space-evenly;
+			background: #f5a671;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		.gameBox li {
+			width: 70px;
+			height: 70px;
+			border-radius: 6px;
+			background: #ddb56b;
 			line-height: 70px;
 			font-size: 2.1rem;
 			text-align: center;
 			overflow: hidden;
-        }
-        .gameBox li div{
-            border-radius: 6px;
+		}
+
+		.gameBox li div {
+			border-radius: 6px;
 			width: 100%;
 			height: 100%;
-        }
-        .gameBox li.other{
-			top:360px;
+		}
+
+		.gameBox li.other {
+			top: 360px;
 			position: absolute;
 			width: 100%;
 			background: none;
 		}
-        .gameBox li.other .reB{
+
+		.gameBox li.other .reB {
 			float: right;
 			cursor: pointer;
 			height: 20px;
@@ -110,164 +219,265 @@
 			border: 1px solid #fce8da;
 			border-radius: 6px;
 		}
-		
 
-        .gameBox .lv0{
-            color: transparent;
-        }
-        .gameBox .lv2{
-            background: #d8eef1;
-        }
-        .gameBox .lv4{
-            background: #bff7ed;
-        }
-        .gameBox .lv8{
-            background: #83d2fe;
-        }
-        .gameBox .lv16{
-            color: #fff;
-            background: #52a3f3;
-        }
-        .gameBox .lv32{
-            color: #fff;
-            background: #4a24cc;
-        }
-        .gameBox .lv64{
-            color: #fff;
-            background: #92529c;
-        }
-        .gameBox .lv128{
-            color: #fff;
-            background: #ce2d96;
-        }
-		.gameBox .lv256{
-            color: #fff;
-            background: #ce2d96;
-        }
-		.gameBox .lv512{
-            color: #fff;
-            background: #ce2d96;
-        }
-		.gameBox .lv1024{
-            color: transparent;
-            background: url(./1024.jpg);
-			background-size: cover;
-        }
-		.gameBox .lv2048{
-            color: transparent;
-            background: url(./2048.jpg);
-			background-size: cover;
-        }
-		.gameBox .lv4096{
-            color: transparent;
-            background: url(./4096.jpg);
-			background-size: cover;
-        }
-		.gameBox .lv8192{
-            color: #fff;
-            background: #888888;
-        }
-		.gameBox .lv16384{
-            color: #fff;
-            background: #000000;
-        }
-		.gameBox .lv32768{
-            color: #c5c5c5;
-            background: #ffffff;
-        }
 
-        .bronAn{
-            animation: bAn 500ms;
-        }
-        @keyframes bAn{
-            0%  {transform: scale(0.6);}
-            100% {transform: scale(1);}
-        }
-        .erroAn{
-            position: relative;
-            animation: eAn 300ms;
-        }
-        @keyframes eAn{
-            0%  {left: 0;right: 0;}
-            10%  {left: 20px;right: 0;}
-            40%  {right: 20px;left: 0;}
-            60%  {left: 20px;right: 0;}
-            90%  {right: 20px;left: 0;}
-            100%  {left: 0px;right: 0;}
-        }
-		.gameTop{
+		.gameBox .lv0 {
+			color: transparent;
+		}
+
+		.gameBox .lv2 {
+			background: #d8eef1;
+		}
+
+		.gameBox .lv4 {
+			background: #bff7ed;
+		}
+
+		.gameBox .lv8 {
+			background: #83d2fe;
+		}
+
+		.gameBox .lv16 {
+			color: #fff;
+			background: #52a3f3;
+		}
+
+		.gameBox .lv32 {
+			color: #fff;
+			background: #4a24cc;
+		}
+
+		.gameBox .lv64 {
+			color: #fff;
+			background: #92529c;
+		}
+
+		.gameBox .lv128 {
+			color: #fff;
+			background: #ce2d96;
+		}
+
+		.gameBox .lv256 {
+			color: #fff;
+			background: #ce2d96;
+		}
+
+		.gameBox .lv512 {
+			color: #fff;
+			background: #ce2d96;
+		}
+
+		.gameBox .lv1024 {
+			color: transparent;
+			background: url(./1024.jpg);
+			background-size: cover;
+		}
+
+		.gameBox .lv2048 {
+			color: transparent;
+			background: url(./2048.jpg);
+			background-size: cover;
+		}
+
+		.gameBox .lv4096 {
+			color: transparent;
+			background: url(./4096.jpg);
+			background-size: cover;
+		}
+
+		.gameBox .lv8192 {
+			color: #fff;
+			background: #888888;
+		}
+
+		.gameBox .lv16384 {
+			color: #fff;
+			background: #000000;
+		}
+
+		.gameBox .lv32768 {
+			color: #c5c5c5;
+			background: #ffffff;
+		}
+
+		.bronAn {
+			animation: bAn 500ms;
+		}
+
+		@keyframes bAn {
+			0% {
+				transform: scale(0.6);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+
+		.erroAn {
+			position: relative;
+			animation: eAn 300ms;
+		}
+
+		@keyframes eAn {
+			0% {
+				left: 0;
+				right: 0;
+			}
+			10% {
+				left: 20px;
+				right: 0;
+			}
+			40% {
+				right: 20px;
+				left: 0;
+			}
+			60% {
+				left: 20px;
+				right: 0;
+			}
+			90% {
+				right: 20px;
+				left: 0;
+			}
+			100% {
+				left: 0px;
+				right: 0;
+			}
+		}
+
+		.lose {
+			animation: lose 6000ms 1000ms ease;
+		}
+
+		@keyframes lose {
+			0% {
+				transform: scale(1)
+			}
+			5% {
+				transform: scale(0)
+			}
+			15% {
+				transform: scale(1.1)
+			}
+			17% {
+				transform: scale(1);
+			}
+			19% {
+				transform: scale(0.9);
+			}
+			21% {
+				transform: scale(1);
+			}
+			21% {
+				transform: rotateY(0deg);
+			}
+			100% {
+				transform: rotateY(10800deg);
+			}
+		}
+
+		.gameTop {
 			animation: gTop 1000ms forwards ease;
 		}
-		.gameTopC{
+
+		.gameTopC {
 			animation: gTopC 1000ms forwards ease;
 		}
-		@keyframes gTop{
-			0% {top: 0px}
-			100% {top:-200px;}
-		}
-		@keyframes gTopC{
-			100% {top: 0px}
-			0% {top:-200px;}
+
+		@keyframes gTop {
+			0% {
+				top: 0px
+			}
+			100% {
+				top: -200px;
+			}
 		}
 
-		.hAndS{
+		@keyframes gTopC {
+			100% {
+				top: 0px
+			}
+			0% {
+				top: -200px;
+			}
+		}
+
+		.hAndS {
 			position: relative;
 		}
-		.sOn{
+
+		.sOn {
 			top: 1.2rem;
 			right: 1.6rem;
 			width: 2rem;
 			height: 0.7rem;
 			position: absolute;
 			z-index: 5;
-			border-radius: 1rem ;
+			border-radius: 1rem;
 			border: 1px #666 solid;
 			font-size: 0.6rem;
 			font-weight: 1000;
 			text-align: center;
 			line-height: 0.7rem;
-			cursor: pointer; 
+			cursor: pointer;
 		}
-		.sOnOn{
+
+		.sOnOn {
 			animation: 2666ms sonon forwards;
 		}
-		.sOnOnC{
+
+		.sOnOnC {
 			animation: 2666ms sononC forwards;
 		}
-		@keyframes sonon{
-			0%	{
+
+		@keyframes sonon {
+			0% {
 				opacity: 0;
 			}
 			100% {
 				opacity: 1;
 			}
 		}
-		@keyframes sononC{
-			100%	{
+
+		@keyframes sononC {
+			100% {
 				opacity: 0;
 			}
 			0% {
 				opacity: 1;
 			}
 		}
-		.sOff{
+
+		.sOff {
 			animation: sOff 1000ms forwards ease;
 		}
-		.sOffC{
+
+		.sOffC {
 			animation: sOffC 1000ms forwards ease;
 		}
-		@keyframes sOff{
-			0%  {transform:scaleY(1);
-				top:-0;}
-            100%  {transform:scaleY(0);
-				top:-120px;}
+
+		@keyframes sOff {
+			0% {
+				transform: scaleY(1);
+				top: -0;
+			}
+			100% {
+				transform: scaleY(0);
+				top: -120px;
+			}
 		}
-		@keyframes sOffC{
-			100%  {transform:scaleY(1);
-				top:-0;}
-            0%  {transform:scaleY(0);
-				top:-120px;}
+
+		@keyframes sOffC {
+			100% {
+				transform: scaleY(1);
+				top: -0;
+			}
+			0% {
+				transform: scaleY(0);
+				top: -120px;
+			}
 		}
+
 		.box0 {
 			margin: 50px auto;
 			display: -webkit-box;
@@ -580,11 +790,13 @@
 			margin: auto;
 			z-index: -2;
 		}
-		#sakura{
+
+		#sakura {
 			position: absolute;
 			z-index: -1;
 		}
-		.tomatch{
+
+		.tomatch {
 			position: relative;
 			width: 100%;
 		}
@@ -616,461 +828,462 @@
 		</div>
 		<div class="gameBox" id="gameBox">
 			<ul class="box" id="box" v-model="values">
-				<li v-for="pv,index in box"  >
+				<li v-for="pv,index in box">
 					<div v-bind:class="[pv,'lv'+values[index],newOne[index]]">
 						{{values[index]}}
 					</div>
 				</li>
-				<li class="other"><span id="reB" class="reB" style="display: none;">Re.Back</span></li>
+				<li class="other">
+					<span id="reB" class="reB" style="display: none;">Re.Back</span>
+				</li>
 			</ul>
 			<div></div>
 		</div>
 	</div>
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
-        <script>
-			// 7days 收缩
-			alert("Welcome to 2048")
-			
-			var sSwitch = document.querySelector(".hAndS");
-			var sOn = document.querySelector("#sOn");
-			var game = document.querySelector("#gameBox");
-			var sSwitchClass;
-			var sOnClass;
-			var gameClass;
-			sSwitchClass = sSwitch.className;
-			sOnClass = sOn.className;
-			gameClass = game.className;
-			sSwitch.addEventListener("touchend",fucOff,true);
-			sSwitch.addEventListener("click",fucOff,true);
-			sOn.addEventListener("touchend",fucOn,true);
-			sOn.addEventListener("click",fucOn,true);
+	<script>
+		// 7days 收缩
+		confirm("dun even ask")
+		var sSwitch = document.querySelector(".hAndS");
+		var sOn = document.querySelector("#sOn");
+		var game = document.querySelector("#gameBox");
+		var sSwitchClass;
+		var sOnClass;
+		var gameClass;
+		sSwitchClass = sSwitch.className;
+		sOnClass = sOn.className;
+		gameClass = game.className;
+		sSwitch.addEventListener("touchend", fucOff, true);
+		sSwitch.addEventListener("click", fucOff, true);
+		sOn.addEventListener("touchend", fucOn, true);
+		sOn.addEventListener("click", fucOn, true);
 
-			function fucOff (){
-				sSwitch.className=  sSwitchClass +" sOff";
-				sOn.setAttribute("style",'display:black');
-				sOn.className = sOnClass + " sOnOn";
-				game.className = gameClass + " gameTop";
-				console.log(sOn.style.display)
-			}
-			function fucOn (){
-				sSwitch.className=  sSwitchClass +" sOffC";
-				sOn.setAttribute("style",'display:none');
-				sOn.className= sOnClass +" sOnOnC";
-				game.className = gameClass + " gameTopC";
-			}
+		function fucOff() {
+			sSwitch.className = sSwitchClass + " sOff";
+			sOn.setAttribute("style", 'display:black');
+			sOn.className = sOnClass + " sOnOn";
+			game.className = gameClass + " gameTop";
+			console.log(sOn.style.display)
+		}
+		function fucOn() {
+			sSwitch.className = sSwitchClass + " sOffC";
+			sOn.setAttribute("style", 'display:none');
+			sOn.className = sOnClass + " sOnOnC";
+			game.className = gameClass + " gameTopC";
+		}
 
 
-// ==========================2048
-            var newOne = [];
-            var values = [];
-            var box = [];
-            //规格
-            var racNXN;
-			racNXN = 4
-			rac(racNXN)
-			function rac(rac){
-				for (i = 1; i < rac+1; i++) {
-					for(j = 1;j<rac+1;j++){
-						box.push("b"+i+"-"+j);
-					}
+		// ==========================2048
+		var newOne = [];
+		var values = [];
+		var box = [];
+		//规格
+		var racNXN;
+		racNXN = 4
+		rac(racNXN)
+		function rac(rac) {
+			for (i = 1; i < rac + 1; i++) {
+				for (j = 1; j < rac + 1; j++) {
+					box.push("b" + i + "-" + j);
 				}
-				values.length = rac*rac;
 			}
-            var vGame = new Vue({
-                el:"#box",
-                data:{
-                    box,
-                    values,
-                    newOne
-                },
-                methods:{
-                }
-            })
-// 0000000000000000
-function stopDrop() {
-    var lastY;//最后一次y坐标点
-    $(document.body).on('touchstart', function(event) {
-        lastY = event.originalEvent.changedTouches[0].clientY;//点击屏幕时记录最后一次Y度坐标。
-    });
-    $(document.body).on('touchmove', function(event) {
-        var y = event.originalEvent.changedTouches[0].clientY;
-        var st = $(this).scrollTop(); //滚动条高度  
-        if (y >= lastY && st <= 10) {//如果滚动条高度小于0，可以理解为到顶了，且是下拉情况下，阻止touchmove事件。
-            lastY = y;
-            event.preventDefault();
-        }
-        lastY = y;
- 
-    });
-}
+			values.length = rac * rac;
+		}
+		var vGame = new Vue({
+			el: "#box",
+			data: {
+				box,
+				values,
+				newOne
+			},
+			methods: {
+			}
+		})
+		// 0000000000000000
+		function stopDrop() {
+			var lastY;//最后一次y坐标点
+			$(document.body).on('touchstart', function (event) {
+				lastY = event.originalEvent.changedTouches[0].clientY;//点击屏幕时记录最后一次Y度坐标。
+			});
+			$(document.body).on('touchmove', function (event) {
+				var y = event.originalEvent.changedTouches[0].clientY;
+				var st = $(this).scrollTop(); //滚动条高度  
+				if (y >= lastY && st <= 10) {//如果滚动条高度小于0，可以理解为到顶了，且是下拉情况下，阻止touchmove事件。
+					lastY = y;
+					event.preventDefault();
+				}
+				lastY = y;
 
-// 0000000000000000
-            var box = document.querySelector("#gameBox");
-            var moveFlag,setx,sety;
-            box.addEventListener("mousedown",function(e){
-                moveFlag = true;
-                setx = e.clientX;
-                sety = e.clientY;
-            },false);
-            box.addEventListener("mousemove",function(e){
-                if(moveFlag){
-                    var x,y;
-                    x = setx-e.clientX;
-                    y = sety - e.clientY;
+			});
+		}
 
-                    if (Math.abs(x)>100||Math.abs(y)>100) {
-                        if (Math.abs(x)>Math.abs(y)) {
-                            if(x>0){
-                                toMove(4);
-                            }else{
-                                toMove(2)
-                            }
-                        }else{
-                            if(y>0){
-                                toMove(1)
-                            }else{
-                                toMove(3)
-                            }
-                        }
-                    }
-                }
-            },false);
-            box.addEventListener("mouseup",function(e){
-                moveFlag = false;
-            },false);
-            box.addEventListener("touchstart",function(e){
-                moveFlag = true;
-                setx = e.touches[0].clientX;
-                sety = e.touches[0].clientY;
-            },false);
-            box.addEventListener("touchmove",function(e){
-				// 禁止浏览器上下拉
-				e.preventDefault();
-                if(moveFlag){
-                    var x,y;
-                    x = setx - e.touches[0].clientX;
-                    y = sety - e.touches[0].clientY;
+		// 0000000000000000
+		var box = document.querySelector("#gameBox");
+		var moveFlag, setx, sety;
+		box.addEventListener("mousedown", function (e) {
+			moveFlag = true;
+			setx = e.clientX;
+			sety = e.clientY;
+		}, false);
+		box.addEventListener("mousemove", function (e) {
+			if (moveFlag) {
+				var x, y;
+				x = setx - e.clientX;
+				y = sety - e.clientY;
 
-                    if (Math.abs(x)>30||Math.abs(y)>30) {
-                        if (Math.abs(x)>Math.abs(y)) {
-                            if(x>0){
-                                toMove(4);
-                            }else{
-                                toMove(2)
-                            }
-                        }else{
-                            if(y>0){
-                                toMove(1)
-                            }else{
-                                toMove(3)
-                            }
-                        }
-                    }
-                }
-            },false);
-            box.addEventListener("mouseup",function(e){
-                moveFlag = false;
-            },false);
-
-
-            // 初始随机生成4个
-            var init4 = [];
-            var ran16 = []
-            for(i=1;i<17;i++){
-                ran16.push(i)
-            }
-            for(i=0;i<4;i++){
-                init4.push(ran16.splice(parseInt(Math.random()*(16-i)),1)[0])
-            }
-            for ( k in init4) {
-                vGame.values.splice(init4[k]-1,1,(parseInt(Math.random()*2)+1)*2)
-            }
-            for ( k in ran16) {
-                vGame.values.splice(ran16[k]-1,1,0)
-            }
-            // 上右下左1234 移动法则
-			var org = document.querySelector("#box").className;
-            function toMove (goTo){
-				
-                moveFlag = false;
-                var newV = [];
-                if(goTo==1){
-                    str =0;
-                    strh =0;
-                    sa =1;
-                    ha =1;
-                }else if(goTo==2){
-                    str =0;
-                    strh =3;
-                    sa =1;
-                    ha =-1;
-                }else if(goTo==3){
-                    str =3;
-                    strh =0;
-                    sa =-1;
-                    ha =1;
-                }else if(goTo==4){
-                    str =0;
-                    strh =0;
-                    sa =1;
-                    ha =1;
-                }
-                if(goTo==2||goTo==4){
-                    for(s=str;s<4&&s>-1;){
-                            var stg = [];
-                            for(h=strh;h<4&&h>-1;){
-                                if(values[s*4+h]>1){
-                                    stg.push(values[s*4+h])
-                                }
-                                h = h+ha
-                            }
-                            for(p=0;stg[++p];){
-                                if(stg[p-1]==stg[p]){
-                                    stg[p-1]+=stg[p];
-                                    stg.splice(p,1)
-                                }
-                            }
-                            for(i=0,p=(4-stg.length);i<p;i++){
-                                stg.push(0)
-                            }
-                            if(goTo==2){
-                                stg = stg.reverse();
-                            }
-                            newV = newV.concat(stg)
-                            s = s+sa;
-                        }
-                }
-                if(goTo==1||goTo==3){
-                    for(h=strh;h<4&&h>-1;){
-                            var stg = [];
-                            for(s=str;s<4&&s>-1;){
-                                if(values[s*4+h]>1){
-                                    stg.push(values[s*4+h])
-                                }
-                                s = s+sa;
-                            }
-                            for(p=0;stg[++p];){
-                                if(stg[p-1]==stg[p]){
-                                    stg[p-1]+=stg[p];
-                                    stg.splice(p,1);
-                                }
-                            }
-                            for(i=0,p=(4-stg.length);i<p;i++){
-                                stg.push(0)
-                            }
-                            if(goTo==3){
-                                stg = stg.reverse();
-                            }
-                            for(i=0,p = stg.length;i<p;i++){
-                                newV[i*4+h] = stg[i];
-                            }
-                            h = h+ha;
-                        }
-                }
-                
-                for(ak in newV){
-                    if(newV[ak]!=values[ak]){
-                        radNew(goTo,newV,1);
-                        break;
-                    }
-                    if(ak==newV.length-1){
-                        document.querySelector("#box").className+=" erroAn";
-                        setTimeout(function(){
-                            document.querySelector("#box").className = org;
-                        },500)
-                    }
-                    
-                }
-                values.length=0;
-                for(ind in newV){
-                    values.push(newV[ind])
-                }
-				// if（满了）{判定输赢}
-				for(ak in values){
-					if(values[ak]==0){
-						break;
-					}
-					if(ak==(values.length-1)){
-						if(cheakLose()){
-							setTimeout(() => {
-								alert("YOU LOSE")
-							}, 0);
+				if (Math.abs(x) > 100 || Math.abs(y) > 100) {
+					if (Math.abs(x) > Math.abs(y)) {
+						if (x > 0) {
+							toMove(4);
+						} else {
+							toMove(2)
 						}
-						function cheakLose(){
-							for(i=0;i<racNXN;i++){
-								for(j=0;j<racNXN-1;j++){
-									if(values[i*racNXN+j]==values[i*racNXN+j+1]){
-										console.log(i*racNXN+j)
-										return false;
-									}
-								}
-							}
-							for(i=0;i<racNXN-1;i++){
-								for(j=0;j<racNXN;j++){
-									if(values[i*racNXN+j]==values[(i+1)*racNXN+j]){
-										console.log(i*racNXN+j)
-										return false;
-									}
-								}
-							}
-							return true;
+					} else {
+						if (y > 0) {
+							toMove(1)
+						} else {
+							toMove(3)
 						}
 					}
 				}
+			}
+		}, false);
+		box.addEventListener("mouseup", function (e) {
+			moveFlag = false;
+		}, false);
+		box.addEventListener("touchstart", function (e) {
+			moveFlag = true;
+			setx = e.touches[0].clientX;
+			sety = e.touches[0].clientY;
+		}, false);
+		box.addEventListener("touchmove", function (e) {
+			// 禁止浏览器上下拉
+			e.preventDefault();
+			if (moveFlag) {
+				var x, y;
+				x = setx - e.touches[0].clientX;
+				y = sety - e.touches[0].clientY;
 
-            }
-            // 随机生新
-            function radNew(goTo,list,nums){
-                var raN;
-                raN = parseInt(Math.random()*2+1)*2;
-				// 存储棋谱；
-				var lastVal=[];
-				for(ak in values){
-					lastVal[ak] = values[ak];
+				if (Math.abs(x) > 30 || Math.abs(y) > 30) {
+					if (Math.abs(x) > Math.abs(y)) {
+						if (x > 0) {
+							toMove(4);
+						} else {
+							toMove(2)
+						}
+					} else {
+						if (y > 0) {
+							toMove(1)
+						} else {
+							toMove(3)
+						}
+					}
+				}
+			}
+		}, false);
+		box.addEventListener("mouseup", function (e) {
+			moveFlag = false;
+		}, false);
+
+
+		// 初始随机生成4个
+		var init4 = [];
+		var ran16 = []
+		for (i = 1; i < 17; i++) {
+			ran16.push(i)
+		}
+		for (i = 0; i < 4; i++) {
+			init4.push(ran16.splice(parseInt(Math.random() * (16 - i)), 1)[0])
+		}
+		for (k in init4) {
+			vGame.values.splice(init4[k] - 1, 1, (parseInt(Math.random() * 2) + 1) * 2)
+		}
+		for (k in ran16) {
+			vGame.values.splice(ran16[k] - 1, 1, 0)
+		}
+		// 上右下左1234 移动法则
+		var org = document.querySelector("#box").className;
+		function toMove(goTo) {
+
+			moveFlag = false;
+			var newV = [];
+			if (goTo == 1) {
+				str = 0;
+				strh = 0;
+				sa = 1;
+				ha = 1;
+			} else if (goTo == 2) {
+				str = 0;
+				strh = 3;
+				sa = 1;
+				ha = -1;
+			} else if (goTo == 3) {
+				str = 3;
+				strh = 0;
+				sa = -1;
+				ha = 1;
+			} else if (goTo == 4) {
+				str = 0;
+				strh = 0;
+				sa = 1;
+				ha = 1;
+			}
+			if (goTo == 2 || goTo == 4) {
+				for (s = str; s < 4 && s > -1;) {
+					var stg = [];
+					for (h = strh; h < 4 && h > -1;) {
+						if (values[s * 4 + h] > 1) {
+							stg.push(values[s * 4 + h])
+						}
+						h = h + ha
+					}
+					for (p = 0; stg[++p];) {
+						if (stg[p - 1] == stg[p]) {
+							stg[p - 1] += stg[p];
+							stg.splice(p, 1)
+						}
+					}
+					for (i = 0, p = (4 - stg.length); i < p; i++) {
+						stg.push(0)
+					}
+					if (goTo == 2) {
+						stg = stg.reverse();
+					}
+					newV = newV.concat(stg)
+					s = s + sa;
+				}
+			}
+			if (goTo == 1 || goTo == 3) {
+				for (h = strh; h < 4 && h > -1;) {
+					var stg = [];
+					for (s = str; s < 4 && s > -1;) {
+						if (values[s * 4 + h] > 1) {
+							stg.push(values[s * 4 + h])
+						}
+						s = s + sa;
+					}
+					for (p = 0; stg[++p];) {
+						if (stg[p - 1] == stg[p]) {
+							stg[p - 1] += stg[p];
+							stg.splice(p, 1);
+						}
+					}
+					for (i = 0, p = (4 - stg.length); i < p; i++) {
+						stg.push(0)
+					}
+					if (goTo == 3) {
+						stg = stg.reverse();
+					}
+					for (i = 0, p = stg.length; i < p; i++) {
+						newV[i * 4 + h] = stg[i];
+					}
+					h = h + ha;
+				}
+			}
+
+			for (ak in newV) {
+				if (newV[ak] != values[ak]) {
+					radNew(goTo, newV, 1);
+					break;
+				}
+				if (ak == newV.length - 1) {
+					document.querySelector("#box").className += " erroAn";
+					setTimeout(function () {
+						document.querySelector("#box").className = org;
+					}, 500)
 				}
 
-                switch (goTo) {
-                    case 1:
-                        pick8(0,2,2)
-                    break;
-                    case 2:
-                        pick8(0,0,0)
-                    break;
-                    case 3:
-                        pick8(0,0,2)
-                    break;
-                    case 4:
-                        pick8(2,0,0)
-                    break;
-                
-                }
-				// 存储棋谱2；
-				reBackup.push(lastVal);
-				reB.setAttribute("style","");
-				if (reBackup[3]){
+			}
+			values.length = 0;
+			for (ind in newV) {
+				values.push(newV[ind])
+			}
+			// if（满了）{判定输赢}
+			for (ak in values) {
+				if (values[ak] == 0) {
+					break;
+				}
+				if (ak == (values.length - 1)) {
+					if (cheakLose()) {
+						document.querySelector("#box").className += " lose"
+						setTimeout(function () {
+							document.querySelector("#box").className = org;
+						}, 6000)
+
+					}
+					function cheakLose() {
+						for (i = 0; i < racNXN; i++) {
+							for (j = 0; j < racNXN - 1; j++) {
+								if (values[i * racNXN + j] == values[i * racNXN + j + 1]) {
+									return false;
+								}
+							}
+						}
+						for (i = 0; i < racNXN - 1; i++) {
+							for (j = 0; j < racNXN; j++) {
+								if (values[i * racNXN + j] == values[(i + 1) * racNXN + j]) {
+									return false;
+								}
+							}
+						}
+						return true;
+					}
+				}
+			}
+
+		}
+		// 随机生新
+		function radNew(goTo, list, nums) {
+			var raN;
+			raN = parseInt(Math.random() * 2 + 1) * 2;
+			// 存储棋谱；
+			var lastVal = [];
+			for (ak in values) {
+				lastVal[ak] = values[ak];
+			}
+
+			switch (goTo) {
+				case 1:
+					pick8(0, 2, 2)
+					break;
+				case 2:
+					pick8(0, 0, 0)
+					break;
+				case 3:
+					pick8(0, 0, 2)
+					break;
+				case 4:
+					pick8(2, 0, 0)
+					break;
+
+			}
+			// 存储棋谱2；
+			reBackup.push(lastVal);
+			reB.setAttribute("style", "");
+			if (reBackup[3]) {
 				reBackup.shift();
-				}
+			}
 
-                function pick8(hs,ss,ph){ 
-                    var piNum =[];
-					if(backUpRe[0]){
-						if(goTo==backUpRe[backUpRe.length-1].goTo){
-							var last = backUpRe.pop();
-							piNum = last.piNum;
-							raN = last.raN;
-						}else{
-							backUpRe.length=0;
-							var pi8 =[];
-							var ps;
-							ps = 2-ph;
-							for(i=ss;i<ss+2+ps;i++){
-								for(j=hs;j<hs+2+ph;j++){
-									if(list[i*4+j]==0){
-										pi8.push(i*4+j);
-									}
-								}
-							}
-							for(i=0;i<nums;i++){
-								piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
-							}
-						}
-					}else{
-						var pi8 =[];
+			function pick8(hs, ss, ph) {
+				var piNum = [];
+				if (backUpRe[0]) {
+					if (goTo == backUpRe[backUpRe.length - 1].goTo) {
+						var last = backUpRe.pop();
+						piNum = last.piNum;
+						raN = last.raN;
+					} else {
+						backUpRe.length = 0;
+						var pi8 = [];
 						var ps;
-						ps = 2-ph;
-						for(i=ss;i<ss+2+ps;i++){
-							for(j=hs;j<hs+2+ph;j++){
-								if(list[i*4+j]==0){
-									pi8.push(i*4+j);
+						ps = 2 - ph;
+						for (i = ss; i < ss + 2 + ps; i++) {
+							for (j = hs; j < hs + 2 + ph; j++) {
+								if (list[i * 4 + j] == 0) {
+									pi8.push(i * 4 + j);
 								}
 							}
 						}
-						for(i=0;i<nums;i++){
-							piNum.push(pi8[parseInt(Math.random()*(pi8.length))]) 
+						for (i = 0; i < nums; i++) {
+							piNum.push(pi8[parseInt(Math.random() * (pi8.length))])
 						}
 					}
-                    newOne.length = 16;
-
-                    for(ak in piNum){
-                        list.splice(piNum[ak],1,raN);
-                        vGame.newOne.splice(piNum[ak],1,"bronAn");
-                        setTimeout(() => {
-                            vGame.newOne.splice(piNum[ak],1,"");
-                        }, 300);
-                    }
-					
-					// 存储棋谱3  {细节操作}
-					lastVal.push({
-						goTo:goTo,
-						raN:raN,
-						piNum:piNum
-					})
-                }
-
-            }
-
-			// 悔棋操作 棋谱池
-			var reBackup = [];
-
-			// 储存悔棋后 之前随机生成的方块位子 
-			var backUpRe = [];
-			// var backUpNum = 0;
-			// PS：如果执行相同操作 
-			// 将生成之前相同的方块，而不是随机生成新的
-			var reB = document.querySelector("#reB");
-			reB.addEventListener("touched",reBack,true);
-			reB.addEventListener("click",reBack,true);
-			function reBack(){
-				if(reBackup[0]){
-					var backTo;
-					backTo = reBackup.pop();
-					backUpRe.push(backTo[backTo.length-1]);
-					for(ak in values){
-						values.splice(ak,1,backTo[ak])
+				} else {
+					var pi8 = [];
+					var ps;
+					ps = 2 - ph;
+					for (i = ss; i < ss + 2 + ps; i++) {
+						for (j = hs; j < hs + 2 + ph; j++) {
+							if (list[i * 4 + j] == 0) {
+								pi8.push(i * 4 + j);
+							}
+						}
+					}
+					for (i = 0; i < nums; i++) {
+						piNum.push(pi8[parseInt(Math.random() * (pi8.length))])
 					}
 				}
-				if(!reBackup[0]){
-					reB.setAttribute("style","display:none");
+				newOne.length = 16;
+
+				for (ak in piNum) {
+					list.splice(piNum[ak], 1, raN);
+					vGame.newOne.splice(piNum[ak], 1, "bronAn");
+					setTimeout(() => {
+						vGame.newOne.splice(piNum[ak], 1, "");
+					}, 300);
+				}
+
+				// 存储棋谱3  {细节操作}
+				lastVal.push({
+					goTo: goTo,
+					raN: raN,
+					piNum: piNum
+				})
+			}
+
+		}
+
+		// 悔棋操作 棋谱池
+		var reBackup = [];
+
+		// 储存悔棋后 之前随机生成的方块位子 
+		var backUpRe = [];
+		// var backUpNum = 0;
+		// PS：如果执行相同操作 
+		// 将生成之前相同的方块，而不是随机生成新的
+		var reB = document.querySelector("#reB");
+		reB.addEventListener("touched", reBack, true);
+		reB.addEventListener("click", reBack, true);
+		function reBack() {
+			if (reBackup[0]) {
+				var backTo;
+				backTo = reBackup.pop();
+				backUpRe.push(backTo[backTo.length - 1]);
+				for (ak in values) {
+					values.splice(ak, 1, backTo[ak])
 				}
 			}
-			// js动画
-			function animate(obj, css, interval, speedFactor, func) {
-				console.log(this)
-				clearInterval(obj.timer);
-				function getStyle(obj, prop) {
-					if (obj.currentStyle)
-						return obj.currentStyle[prop]; // ie  
+			if (!reBackup[0]) {
+				reB.setAttribute("style", "display:none");
+			}
+		}
+		// js动画
+		function animate(obj, css, interval, speedFactor, func) {
+			console.log(this)
+			clearInterval(obj.timer);
+			function getStyle(obj, prop) {
+				if (obj.currentStyle)
+					return obj.currentStyle[prop]; // ie  
+				else
+					return document.defaultView.getComputedStyle(obj, null)[prop];  // 非ie  
+			}
+			obj.timer = setInterval(function () {
+				var flag = true;
+				for (var prop in css) {
+					var cur = 0;
+					if (prop == "opacity")
+						cur = Math.round(parseFloat(getStyle(obj, prop)) * 100);
 					else
-						return document.defaultView.getComputedStyle(obj, null)[prop];  // 非ie  
+						cur = parseInt(getStyle(obj, prop));
+					var speed = (css[prop] - cur) * speedFactor;
+					speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+					if (cur != css[prop])
+						flag = false;
+					if (prop == "opacity") {
+						obj.style.filter = "alpha(opacity : '+(cur + speed)+' )";
+						obj.style.opacity = (cur + speed) / 100;
+					}
+					else
+						obj.style[prop] = cur + speed + "px";
 				}
-				obj.timer = setInterval(function () {
-					var flag = true;
-					for (var prop in css) {
-						var cur = 0;
-						if (prop == "opacity")
-							cur = Math.round(parseFloat(getStyle(obj, prop)) * 100);
-						else
-							cur = parseInt(getStyle(obj, prop));
-						var speed = (css[prop] - cur) * speedFactor;
-						speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-						if (cur != css[prop])
-							flag = false;
-						if (prop == "opacity") {
-							obj.style.filter = "alpha(opacity : '+(cur + speed)+' )";
-							obj.style.opacity = (cur + speed) / 100;
-						}
-						else
-							obj.style[prop] = cur + speed + "px";
-					}
-					if (flag) {
-						clearInterval(obj.timer);
-						if (func)
-							func();
-					}
-				}, interval);
-			}  
+				if (flag) {
+					clearInterval(obj.timer);
+					if (func)
+						func();
+				}
+			}, interval);
+		}
 
-        </script>
+	</script>
 	<script id="sakura_point_vsh" type="x-shader/x_vertex">
 			uniform mat4 uProjection;
 			uniform mat4 uModelview;
