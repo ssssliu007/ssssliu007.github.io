@@ -116,11 +116,47 @@
             color: #fff;
             background: #ce2d96;
         }
+		.gameBox .lv256{
+            color: #fff;
+            background: #ce2d96;
+        }
+		.gameBox .lv512{
+            color: #fff;
+            background: #ce2d96;
+        }
+		.gameBox .lv1024{
+            color: transparent;
+            background: url(./1024.jpg);
+			background-size: cover;
+        }
+		.gameBox .lv2048{
+            color: transparent;
+            background: url(./2048.jpg);
+			background-size: cover;
+        }
+		.gameBox .lv4096{
+            color: transparent;
+            background: url(./4096.jpg);
+			background-size: cover;
+        }
+		.gameBox .lv8192{
+            color: #fff;
+            background: #888888;
+        }
+		.gameBox .lv16384{
+            color: #fff;
+            background: #000000;
+        }
+		.gameBox .lv32768{
+            color: #c5c5c5;
+            background: #ffffff;
+        }
+
         .bronAn{
-            animation: bAn 300ms;
+            animation: bAn 500ms;
         }
         @keyframes bAn{
-            0%  {transform: scale(0.9);}
+            0%  {transform: scale(0.6);}
             100% {transform: scale(1);}
         }
         .erroAn{
@@ -135,6 +171,79 @@
             90%  {right: 20px;left: 0;}
             100%  {left: 0px;right: 0;}
         }
+		.gameTop{
+			animation: gTop 1000ms forwards ease;
+		}
+		.gameTopC{
+			animation: gTopC 1000ms forwards ease;
+		}
+		@keyframes gTop{
+			0% {top: 0px}
+			100% {top:-200px;}
+		}
+		@keyframes gTopC{
+			100% {top: 0px}
+			0% {top:-200px;}
+		}
+
+		.hAndS{
+			position: relative;
+		}
+		.sOn{
+			top: 1.2rem;
+			right: 1.6rem;
+			width: 2rem;
+			height: 0.7rem;
+			position: absolute;
+			z-index: 5;
+			border-radius: 1rem ;
+			border: 3px #666 solid;
+			font-size: 0.6rem;
+			font-weight: 1000;
+			text-align: center;
+			line-height: 0.6rem;
+			cursor: pointer; 
+		}
+		.sOnOn{
+			animation: 2666ms sonon forwards;
+		}
+		.sOnOnC{
+			animation: 2666ms sononC forwards;
+		}
+		@keyframes sonon{
+			0%	{
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+		@keyframes sononC{
+			100%	{
+				opacity: 0;
+			}
+			0% {
+				opacity: 1;
+			}
+		}
+		.sOff{
+			animation: sOff 1000ms forwards ease;
+		}
+		.sOffC{
+			animation: sOffC 1000ms forwards ease;
+		}
+		@keyframes sOff{
+			0%  {transform:scaleY(1);
+				top:-0;}
+            100%  {transform:scaleY(0);
+				top:-120px;}
+		}
+		@keyframes sOffC{
+			100%  {transform:scaleY(1);
+				top:-0;}
+            0%  {transform:scaleY(0);
+				top:-120px;}
+		}
 		.box0 {
 			margin: 50px auto;
 			display: -webkit-box;
@@ -445,9 +554,11 @@
 
 		.mx>* {
 			margin: auto;
+			z-index: -2;
 		}
 		#sakura{
 			position: absolute;
+			z-index: -1;
 		}
 		.tomatch{
 			position: relative;
@@ -459,21 +570,25 @@
 		<div class="mx">
 			<h2>谢祎娃你个瓜婆娘</h2>
 		</div>
-		<div class="box0">
-			<div class="inner0">
-				<div class="doteBox1">
-				</div>
-				<div class="doteBox2">
-				</div>
-				<div class="doteBox3">
-				</div>
-				<div class="doteBox4">
-				</div>
-				<div class="doteBox5">
-				</div>
-				<div class="doteBox6">
+		<span id="sOn" class="sOn" style="display: none">+</span>
+		<div class="hAndS" id="hAndS">
+			<div class="box0" id="sOff">
+				<div class="inner0">
+					<div class="doteBox1">
+					</div>
+					<div class="doteBox2">
+					</div>
+					<div class="doteBox3">
+					</div>
+					<div class="doteBox4">
+					</div>
+					<div class="doteBox5">
+					</div>
+					<div class="doteBox6">
+					</div>
 				</div>
 			</div>
+			<div class="clearfix"></div>
 		</div>
 		<div class="gameBox" id="gameBox">
 			<ul class="box" id="box" v-model="values">
@@ -487,6 +602,38 @@
 	</div>
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
         <script>
+			// 7days 收缩
+			
+			var sSwitch = document.querySelector(".hAndS");
+			var sOn = document.querySelector("#sOn");
+			var game = document.querySelector("#gameBox");
+			var sSwitchClass;
+			var sOnClass;
+			var gameClass;
+			sSwitchClass = sSwitch.className;
+			sOnClass = sOn.className;
+			gameClass = game.className;
+			sSwitch.addEventListener("touchend",fucOff,true);
+			sSwitch.addEventListener("click",fucOff,true);
+			sOn.addEventListener("touchend",fucOn,true);
+			sOn.addEventListener("click",fucOn,true);
+
+			function fucOff (){
+				sSwitch.className=  sSwitchClass +" sOff";
+				sOn.setAttribute("style",'display:black');
+				sOn.className = sOnClass + " sOnOn";
+				game.className = gameClass + " gameTop";
+				console.log(sOn.style.display)
+			}
+			function fucOn (){
+				sSwitch.className=  sSwitchClass +" sOffC";
+				sOn.setAttribute("style",'display:none');
+				sOn.className= sOnClass +" sOnOnC";
+				game.className = gameClass + " gameTopC";
+			}
+
+
+// ==========================2048
             var newOne = [];
             var values = [];
             var box = [];
@@ -512,6 +659,25 @@
                 methods:{
                 }
             })
+// 0000000000000000
+function stopDrop() {
+    var lastY;//最后一次y坐标点
+    $(document.body).on('touchstart', function(event) {
+        lastY = event.originalEvent.changedTouches[0].clientY;//点击屏幕时记录最后一次Y度坐标。
+    });
+    $(document.body).on('touchmove', function(event) {
+        var y = event.originalEvent.changedTouches[0].clientY;
+        var st = $(this).scrollTop(); //滚动条高度  
+        if (y >= lastY && st <= 10) {//如果滚动条高度小于0，可以理解为到顶了，且是下拉情况下，阻止touchmove事件。
+            lastY = y;
+            event.preventDefault();
+        }
+        lastY = y;
+ 
+    });
+}
+
+// 0000000000000000
             var box = document.querySelector("#gameBox");
             var moveFlag,setx,sety;
             box.addEventListener("mousedown",function(e){
@@ -551,6 +717,8 @@
                 sety = e.touches[0].clientY;
             },false);
             box.addEventListener("touchmove",function(e){
+				// 禁止浏览器上下拉
+				e.preventDefault();
                 if(moveFlag){
                     var x,y;
                     x = setx - e.touches[0].clientX;
@@ -682,7 +850,7 @@
                         console.log(org);
                         setTimeout(function(){
                             document.querySelector("#box").className = org;
-                        },300)
+                        },500)
                     }
                     
                 }
@@ -735,6 +903,43 @@
                     }
                 }
             }
+			// js动画
+			function animate(obj, css, interval, speedFactor, func) {
+				console.log(this)
+				clearInterval(obj.timer);
+				function getStyle(obj, prop) {
+					if (obj.currentStyle)
+						return obj.currentStyle[prop]; // ie  
+					else
+						return document.defaultView.getComputedStyle(obj, null)[prop];  // 非ie  
+				}
+				obj.timer = setInterval(function () {
+					var flag = true;
+					for (var prop in css) {
+						var cur = 0;
+						if (prop == "opacity")
+							cur = Math.round(parseFloat(getStyle(obj, prop)) * 100);
+						else
+							cur = parseInt(getStyle(obj, prop));
+						var speed = (css[prop] - cur) * speedFactor;
+						speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+						if (cur != css[prop])
+							flag = false;
+						if (prop == "opacity") {
+							obj.style.filter = "alpha(opacity : '+(cur + speed)+' )";
+							obj.style.opacity = (cur + speed) / 100;
+						}
+						else
+							obj.style[prop] = cur + speed + "px";
+					}
+					if (flag) {
+						clearInterval(obj.timer);
+						if (func)
+							func();
+					}
+				}, interval);
+			}  
+
         </script>
 	<script id="sakura_point_vsh" type="x-shader/x_vertex">
 			uniform mat4 uProjection;
