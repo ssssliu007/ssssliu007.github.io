@@ -850,6 +850,29 @@
 	</div>
 	<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
 	<script>
+		 //添加cookie
+		function setCookie(name,value,time){ 
+			var date= new Date(); 
+			console.log(date);
+			date.setDate(date.getDate()+time);
+			console.log(date);
+			document.cookie = name+"="+value+";expires="+date; 
+		} 
+		//获得cookie
+		function getCookie(name){ 
+			var arr = document.cookie.split(";"); 
+			for(var i=0; i<arr.length; i++){ 
+			var arr2 = arr[i].split("="); 
+				if(arr2[0] == name){ 
+					return arr2[1]; 
+				} 
+			} 
+			return null; 
+		} 
+		//删除cookie
+		function removeCookie(name){ 
+			setCookie(name,"",0) 
+		} 
 		// 7days 收缩
 		var sSwitch = document.querySelector(".hAndS");
 		var sOn = document.querySelector("#sOn");
@@ -884,7 +907,30 @@
 		var newOne = [];
 		var values = [];
 		var box = [];
+		var vGame = new Vue({
+			el: "#box",
+			data: {
+				box,
+				values,
+				newOne
+			},
+			methods: {
+			}
+		})
 		var racNXN;
+		// 悔棋操作 棋谱池
+		var reBackup = [];
+		// 储存悔棋后 之前随机生成的方块位子 
+		var backUpRe = [];
+		// var backUpNum = 0;
+		// PS：如果执行相同操作 
+		// 将生成之前相同的方块，而不是随机生成新的
+		var reBa = document.querySelector("#reB");
+		var boxD = document.querySelector("#gameBox");
+		var moveFlag, setx, sety;
+		var org = document.querySelector("#box").className;
+
+		// ==========全局变量声明
 		racNXN = 4
 		//规格;
 		rac(racNXN)
@@ -897,16 +943,6 @@
 			}
 			values.length = rac * rac;
 		}
-		var vGame = new Vue({
-			el: "#box",
-			data: {
-				box,
-				values,
-				newOne
-			},
-			methods: {
-			}
-		})
 		// 0000000000000000
 		function stopDrop() {
 			var lastY;//最后一次y坐标点
@@ -924,10 +960,8 @@
 
 			});
 		}
-
 		// 0000000000000000
-		var boxD = document.querySelector("#gameBox");
-		var moveFlag, setx, sety;
+
 		boxD.addEventListener("mousedown", function (e) {
 			moveFlag = true;
 			setx = e.clientX;
@@ -994,8 +1028,27 @@
 		}, false);
 
 
+
+		// 读取存档
+		if(document.cookie){
+			var valArr;
+			valArr = getCookie('lastCookie');
+			console.log(valArr);
+			valArr = JSON.parse(valArr);
+			console.log(valArr);
+			values.length=0;
+			for(ak in valArr['values']){
+				values.push(valArr['values'][ak]);
+			}
+			reBackup = valArr['reBackup'];
+			backUpRe = valArr['backUpRe'];
+			if(reBackup[0]){
+				reBa.setAttribute("style", "");
+			}
+		}else{
+			init(4);
+		}
 		// 初始随机生成4个
-		init(4);
 		function init(Nub){
 			var init4 = [];
 			var ran16 = []
@@ -1026,11 +1079,11 @@
 				reBackup.length = 0;
 				backUpRe.length =0;
 				reB.setAttribute("style", "display:none");
+				setCookie("lastCookie",cookieData(),14);
 			}
 		}
 
 		// 上右下左1234 移动法则
-		var org = document.querySelector("#box").className;
 		function toMove(goTo) {
 
 			moveFlag = false;
@@ -1126,6 +1179,9 @@
 			for (ind in newV) {
 				values.push(newV[ind])
 			}
+			// 记录到本地
+
+			setCookie("lastCookie",cookieData(),14);
 			// if（满了）{判定输赢}
 			for (ak in values) {
 				if (values[ak] == 0) {
@@ -1185,9 +1241,10 @@
 					break;
 
 			}
-			// 存储棋谱2；
+			// 存储棋谱3；
 			reBackup.push(lastVal);
-			reB.setAttribute("style", "");
+			console.log(reBa)
+			reBa.setAttribute("style", "");
 			if (reBackup[3]) {
 				reBackup.shift();
 			}
@@ -1240,7 +1297,7 @@
 					}, 300);
 				}
 
-				// 存储棋谱3  {细节操作}
+				// 存储棋谱2  {细节操作}
 				lastVal.push({
 					goTo: goTo,
 					raN: raN,
@@ -1249,19 +1306,22 @@
 			}
 
 		}
+			function cookieData(){
+				var val2 = [];
+				var valJson = {};
+				var val3,val4;
+				for(ak in values){
+					val2[ak]=values[ak]
+				}
+				valJson ={'values':val2,'reBackup':reBackup,'backUpRe':backUpRe};
+				console.log(JSON.stringify(valJson))
+				return  JSON.stringify(valJson);
+			}
 
-		// 悔棋操作 棋谱池
-		var reBackup = [];
-
-		// 储存悔棋后 之前随机生成的方块位子 
-		var backUpRe = [];
-		// var backUpNum = 0;
-		// PS：如果执行相同操作 
-		// 将生成之前相同的方块，而不是随机生成新的
-		var reB = document.querySelector("#reB");
-		reB.addEventListener("touched", reBack, true);
-		reB.addEventListener("click", reBack, true);
-		function reBack() {
+		console.log(reBa)
+		reBa.addEventListener("touched", reBackAc, false);
+		reBa.addEventListener("click", reBackAc, false);
+		function reBackAc() {
 			if (reBackup[0]) {
 				var backTo;
 				backTo = reBackup.pop();
@@ -1271,8 +1331,9 @@
 				}
 			}
 			if (!reBackup[0]) {
-				reB.setAttribute("style", "display:none");
+				reBa.setAttribute("style", "display:none");
 			}
+			setCookie("lastCookie",cookieData(),14);
 		}
 		// js动画
 		function animate(obj, css, interval, speedFactor, func) {
