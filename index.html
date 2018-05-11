@@ -874,7 +874,6 @@ function stopDrop() {
                     }
                     if(ak==newV.length-1){
                         document.querySelector("#box").className+=" erroAn";
-                        console.log(org);
                         setTimeout(function(){
                             document.querySelector("#box").className = org;
                         },500)
@@ -885,6 +884,39 @@ function stopDrop() {
                 for(ind in newV){
                     values.push(newV[ind])
                 }
+				// if（满了）{判定输赢}
+				for(ak in values){
+					if(values[ak]==0){
+						break;
+					}
+					if(ak==(values.length-1)){
+						if(cheakLose()){
+							setTimeout(function(){
+								alert("YOU LOSE")
+							},0)
+						}
+						function cheakLose(){
+							for(i=0;i<racNXN;i++){
+								for(j=0;j<racNXN-1;j++){
+									if(values[i*racNXN+j]==values[i*racNXN+j+1]){
+										console.log(i*racNXN+j)
+										return false;
+									}
+								}
+							}
+							for(i=0;i<racNXN-1;i++){
+								for(j=0;j<racNXN;j++){
+									if(values[i*racNXN+j]==values[(i+1)*racNXN+j]){
+										console.log(i*racNXN+j)
+										return false;
+									}
+								}
+							}
+							return true;
+						}
+					}
+				}
+
             }
             // 随机生新
             function radNew(goTo,list,nums){
@@ -972,7 +1004,6 @@ function stopDrop() {
 						raN:raN,
 						piNum:piNum
 					})
-					console.log(lastVal)
                 }
 
             }
