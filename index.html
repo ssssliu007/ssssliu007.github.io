@@ -199,7 +199,7 @@
 			background: #ddb56b;
 			position: relative;
 			text-align: center;
-			overflow: hidden;
+			/* overflow: hidden; */
 		}
 		.gameBox li:nth-child(4n){
 			margin-right: 4px;
@@ -353,13 +353,13 @@
 		}
 
 		.bronAn {
-			-webkit-animation: bAn 500ms 150ms;
-			        animation: bAn 500ms 150ms;
+			-webkit-animation: bAn 500ms 100ms;
+			        animation: bAn 500ms 100ms;
 		}
 		@-webkit-keyframes bAn {
 			0% {
-				-webkit-transform: scale(0.6);
-				        transform: scale(0.6);
+				-webkit-transform: scale(0);
+				        transform: scale(0);
 			}
 			100% {
 				-webkit-transform: scale(1);
@@ -368,14 +368,50 @@
 		}
 		@keyframes bAn {
 			0% {
-				-webkit-transform: scale(0.6);
-				        transform: scale(0.6);
+				-webkit-transform: scale(0);
+				        transform: scale(0);
 			}
 			100% {
 				-webkit-transform: scale(1);
 				        transform: scale(1);
 			}
 		}
+		
+		.changeAn0{
+			        -webkit-animation: change0 418ms;
+			                animation: change0 418ms;
+		}
+		@-webkit-keyframes change0{
+			0% {
+				-webkit-transform: scale(1);
+				        transform: scale(1);
+				transform: scale(1);
+			}
+			40% {
+				-webkit-transform: scale(1.1);
+				        transform: scale(1.1);
+			}
+			100% {
+				-webkit-transform: scale(1);
+				        transform: scale(1);
+			}
+		}
+		@keyframes change0{
+			0% {
+				-webkit-transform: scale(1);
+				        transform: scale(1);
+				transform: scale(1);
+			}
+			40% {
+				-webkit-transform: scale(1.1);
+				        transform: scale(1.1);
+			}
+			100% {
+				-webkit-transform: scale(1);
+				        transform: scale(1);
+			}
+		}
+
 		.changeAn1{
 			-webkit-animation: change1 300ms 100ms;
 			        animation: change1 300ms 100ms;
@@ -470,6 +506,26 @@
 			100% {
 				-webkit-transform: rotateY(360deg);
 				        transform: rotateY(360deg);
+			}
+		}
+		.moveC{
+			-webkit-animation: moveC 300ms 100ms;
+			        animation: moveC 300ms 100ms;
+		}
+		@-webkit-keyframes moveC{
+			0% {
+				transform: scale(0);
+			}
+			100% {
+				transform: scale(2);
+			}
+		}
+		@keyframes moveC{
+			0% {
+				transform: scale(0);
+			}
+			100% {
+				transform: scale(2);
 			}
 		}
 		.moveC1{
@@ -1456,8 +1512,8 @@
 		</div>
 		<div class="gameBox" id="gameBox">
 			<ul class="box" id="box" v-model="values">
-				<li v-for="pv,index in box" v-bind:class="[theMove[index]]">
-					<div v-bind:class="[pv,'lv'+values[index],newOne[index],changed[index],toChange[index]]">
+				<li v-for="pv,index in box" v-bind:class="[newOne[index],changed[index]]">
+					<div v-bind:class="[pv,'lv'+values[index],theMove[index]]">
 						{{values[index]}}
 					</div>
 				</li>
@@ -1888,7 +1944,6 @@
 		// 上右下左1234 移动法则
 		function toMove(goTo) {
 			var forChange =[];
-			forChange.length=0;
 			
 			theMove.length=16;
 			changed.length=16;
@@ -1932,7 +1987,9 @@
 								// 	plusV = theMove[forCheak[1]];
 								// };
 								// theMove.splice((s * 4 + h),1,(plusV+plus0));
-								toChange.splice((s * 4 + h),1,'moveC'+goTo);
+								// toChange.splice((s * 4 + h),1,'moveC'+goTo);
+
+								toChange.splice((s * 4 + h),1,'moveC');
 								forChange.push(s * 4 + h);
 								forCheak[0]=0;
 								plus0++;
@@ -2013,7 +2070,10 @@
 								// 	plusV = theMove[forCheak[1]];
 								// };
 								// theMove.splice((s * 4 + h),1,(plusV+plus0));
-								toChange.splice((s * 4 + h),1,'moveC'+goTo);
+								
+								// toChange.splice((s * 4 + h),1,'moveC'+goTo);
+
+								toChange.splice((s * 4 + h),1,'moveC');
 								forChange.push(s * 4 + h);
 								forCheak[0]=0;
 								plus0++;
@@ -2070,41 +2130,45 @@
 
 			}
 			// 位移数据处理总结
-			changed.length=0;
-			changed.length=16;
+			var indexMo=[];
 			for(ak in forChange){
-				var index;
-				switch (goTo) {
-					case 1:
-						index = forChange[ak] - theMove[forChange[ak]]*racNXN;
-						changed.splice(index,1,'changeAn1');
-						break;
-					case 2:
-						index = forChange[ak] + theMove[forChange[ak]];
-						changed.splice(index,1,'changeAn2');
-						break;
-					case 3:
-						index = forChange[ak] + theMove[forChange[ak]]*racNXN;
-						changed.splice(index,1,'changeAn3');
-						break;
-					case 4:
-						index = forChange[ak] - theMove[forChange[ak]];
-						changed.splice(index,1,'changeAn4');
-						break;
-				}
+			switch (goTo) {
+				case 1:
+					indexMo.push(forChange[ak] - theMove[forChange[ak]]*4);
+					// changed.splice(index,1,'changeAn1');
+					break;
+				case 2:
+					indexMo.push(forChange[ak] + theMove[forChange[ak]]);
+					// changed.splice(index,1,'changeAn2');
+					break;
+				case 3:
+					indexMo.push(forChange[ak] + theMove[forChange[ak]]*4);
+					// changed.splice(index,1,'changeAn3');
+					break;
+				case 4:
+					indexMo.push(forChange[ak] - theMove[forChange[ak]]);
+					// changed.splice(index,1,'changeAn4');
+					break;
 			}
-'bronAn'
+			}
 			// 移动动画添加class
+			
 			theMo(goTo,theMove);
 			
 			setTimeout(() => {
-				theMove.length=0;
 				changed.length=0;
 				toChange.length=0;
 				values.length = 0;
 				for (ind in newV) {
 					values.push(newV[ind])
 				}
+				changed.length=16;
+				for(ak in indexMo){
+					changed.splice(indexMo[ak],1,'changeAn0');
+				}
+					console.log(changed)
+				theMove.length=0;
+				forChange.length=0;
 				// 记录到本地
 				setCookie("lastCookie",cookieData(),14);
 			}, 100);
