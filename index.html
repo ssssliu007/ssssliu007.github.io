@@ -219,15 +219,17 @@
 		.gameBox li:nth-child(16){
 			margin-bottom: 4px;
 		}
-		.gameBox li div {
-			position: absolute;
+		.gameBox li div.index {
 			font-size: 2.6em;
 			line-height: 2em;
+		}
+		.gameBox li div{
+			position: absolute;
+			background: #ddb56b;
 			border-radius: 6px;
 			width: 100%;
 			height: 100%;
 		}
-
 		.gameBox li.other {
 			top: 360px;
 			position: absolute;
@@ -1512,9 +1514,12 @@
 		</div>
 		<div class="gameBox" id="gameBox">
 			<ul class="box" id="box" v-model="values">
-				<li v-for="pv,index in box" v-bind:class="[newOne[index],changed[index]]">
-					<div v-bind:class="[pv,'lv'+values[index],theMove[index]]">
-						{{values[index]}}
+				<li v-for="pv,index in box" v-bind:class="[changed[index]]">
+					<div v-bind:class="newOne[index]">
+						<div class="index" v-bind:class="[pv,'lv'+values[index],theMove[index]]">
+							{{values[index]}}
+						</div>
+
 					</div>
 				</li>
 				<li class="other">
@@ -2092,7 +2097,6 @@
 						}
 						else{
 							plus0++;
-							console.log(plus0)
 						
 						}
 						s = s + sa;
@@ -2168,9 +2172,13 @@
 				}
 					console.log(changed)
 				theMove.length=0;
-				forChange.length=0;
+				forChange.splice(0,forChange.length);
 				// 记录到本地
 				setCookie("lastCookie",cookieData(),14);
+				setTimeout(function(){
+					vGame.newOne.splice(0, newOne.length);
+					changed.splice(0,changed.length);
+				}, 300);
 			}, 100);
 
 			// if（满了）{判定输赢}
@@ -2205,9 +2213,6 @@
 					}
 				}
 			}
-			console.log(theMove);
-			console.log(forChange);
-
 		}
 		// 移动动画法则
 		function theMo(goTo,arr){
@@ -2221,6 +2226,7 @@
 		}
 
 		// 随机生新
+		var piNum = [];
 		function radNew(goTo, list, nums) {
 			newOne.length = 0;
 			var raN;
@@ -2254,7 +2260,7 @@
 			}
 
 			function pick8(hs, ss, ph) {
-				var piNum = [];
+				piNum.length = 0;
 				if (backUpRe[0]) {
 					if (goTo == backUpRe[backUpRe.length - 1].goTo) {
 						var last = backUpRe.pop();
@@ -2296,9 +2302,9 @@
 				for (ak in piNum) {
 					list.splice(piNum[ak], 1, raN);
 					vGame.newOne.splice(piNum[ak], 1, "bronAn");
-					setTimeout(() => {
-						vGame.newOne.splice(piNum[ak], 1, "");
-					}, 300);
+					// setTimeout(function(){
+					// 	vGame.newOne.splice(piNum[ak], 1, "");
+					// }, 300);
 				}
 
 				// 存储棋谱2  {细节操作}
