@@ -9,28 +9,46 @@
 </head>
 <body>
   <div class="tomatch">
-    <canvas id="sakura"></canvas>
-    <div class="mx">
-    </div>
-    <span id="sOn" class="sOn" style="display: none">+</span>
     <div class="gameBox" id="gameBox">
+      <span id="sOn" class="sOn" style="display: none">+</span>
       <ul class="box" id="box">
       </ul>
-      <!-- <div class="btn-box">
-        <span id="reB" class="reB" style="display: none;">Re.Back</span>
-        <span class="reN" style="display: block;">Re.New</span>
-      </div> -->
+      <div class="btn-box lv_1" id="btn-box">
+        <span id="re-back" class="btn re-back is-init">Re.Back</span>
+        <span id="re-new" class="btn re-new  cell-back is-init" style="display: block;">Re.New</span>
+      </div>
     </div>
   </div>
 </body>
 <script src="./js/2048.js"></script>
 <script>
-  const dev = new Game2048('#box')
-  Object.values(document.querySelectorAll('.button')).forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      dev.move(index + 1)
+  const game = new Game2048('#box')
+  // dev.$onchange = (e)=>{
+  //   console.log(e)
+  // }
+  game.done.then(()=>{
+    Object.values(document.querySelectorAll('.is-init')).forEach((dm)=>{
+      dm.classList.remove('is-init')
     })
-  });
+  })
+  let reBack = document.querySelector('#re-back')
+  let reNew = document.querySelector('#re-new')
+  let reBox = document.querySelector('#btn-box')
+  reBack.addEventListener('click', game.moveBackworld.bind(game))
+  reNew.addEventListener('click', game.reNew.bind(game))
+  game.subscribe(game._global, 'max_lv', 'max', (newValue, tDom) => {
+    let cList = tDom.classList,
+    lastLv = Array.from(cList).find(i=>/^lv_/.test(i))
+    cList.remove(lastLv)
+    cList.add('lv_' + newValue)
+  }, reNew)
+  game.subscribe(game._global, 'his_len', 'historyLength', (newValue, tDom) => {
+    if(newValue == 0){
+      tDom.classList.add('hide')
+    }else{
+      tDom.classList.remove('hide')
+    }
+  }, reBack)
 </script>
 
 </html>

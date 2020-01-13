@@ -23,16 +23,22 @@ class Game2048 {
   constructor(el, opts = {}) {
     if (typeof opts == "number") {
       opts = {
-        spec: opts
+        spec: opts,
+        historyLength: 3
       }
     } else {
 
     }
+    this._global = {}
+    this.addList = []
+    this.historyList = []
+    this.renewHistory(true)
     this._options = opts = Object.assign({
       spec: 4,
       stepPower: 2
     }, opts)
     this._map = {}
+    this.$onchange = null
     this.onAnimate = false
     this._bookingList = new Map()
     if (typeof el == 'string') {
@@ -58,7 +64,7 @@ class Game2048 {
           [
             [{
               attrName: 'class',
-              value: 'cell-wrap'
+              value: 'cell-wrap cell-back'
             }]
           ],
           [
@@ -108,7 +114,10 @@ class Game2048 {
         this._set(this._map[key], 'animate', '')
       }
     }
-    this.init(4)
+    this.init(this.historyList[0] && Object.entries(this.historyList[0].map).map(([k, v])=>[...k.split('_'), v]) || 4)
+    setTimeout(() => {
+      this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
+    }, 0);
     // this.init([
     //   [0, 0, 1],
     //   [1, 0, 1],
@@ -132,15 +141,26 @@ class Game2048 {
     //   [1, 3, 2],
     //   [2, 3, 1],
     // ])
-    console.dir(this)
-    window.game = this
+    this.done = new Promise((a)=>{
+      setTimeout(() => {
+        a()
+      }, 0);
+    })
+  }
+  reNew(){
+    this.historyList = [];
+    Object.keys(this._map).forEach(key=>{
+      this._map[key].value = 0;
+      this._map[key].class = ''
+    })
+    this.init()
   }
   init(init = 4) {
     if (init instanceof Array) {
       init.map(([x, y, v]) => {
         // this._set(this._map[x+'_'+y], 'value', v)
         this._map[x + '_' + y].value = v
-        this._map[x + '_' + y].class = 'is-new'
+        this._map[x + '_' + y].class = v && 'is-new' || ''
         // this._map[x+'_'+y] = {
         //   value: v,
         //   animate: ''
@@ -152,7 +172,7 @@ class Game2048 {
         count--
         let key = [0, 0].map(_ => r.int(this._options.spec)).join('_')
         if (!this._map[key].value) {
-          this._map[key].value = r.int(1, 2)
+          this._map[key].value = r.int(1, 3)
           this._map[key].class = 'is-new'
           init--
         }
@@ -166,35 +186,7 @@ class Game2048 {
     let opts = {
       moveFlag: false,
       startSet:{},
-    },
-    tMove = (e)=> {
-      console.log(this._touchInfo.moveFlag)
-			if (this._touchInfo.moveFlag) {
-        if(e.touches && e.touches[0]){
-          e = e.touches[0]
-        }
-        console.log(e.touches)
-				let {clientX: x, clientY: y}= e;
-				x = this._touchInfo.startSet.x - x;
-				y = this._touchInfo.startSet.y - y;
-				if (Math.abs(x) > 100 || Math.abs(y) > 100) {
-					if (Math.abs(x) > Math.abs(y)) {
-						if (x > 0) {
-							this.move(4);
-						} else {
-							this.move(2)
-						}
-					} else {
-						if (y > 0) {
-							this.move(1)
-						} else {
-							this.move(3)
-						}
-          }
-          this._touchInfo.moveFlag = false
-				}
-			}
-		};
+    };
     this._touchInfo = opts
     this._el.addEventListener("mousedown", (e)=> {
       Object.assign(this._touchInfo,{
@@ -202,37 +194,51 @@ class Game2048 {
         startSet:{x:e.clientX, y:e.clientY}
       })
 		}, false);
-		this._el.addEventListener("mousemove", tMove, false);
+		this._el.addEventListener("mousemove", this.tMove, false);
 		this._el.addEventListener("mouseup", ()=> {
 			this._touchInfo.moveFlag = false;
 		}, false);
-		this._el.addEventListener("touchstart", (e)=> {
-      console.log('touchstart',e)
+		this._el.addEventListener("touchstart", ({touches:[e]})=> {
 			Object.assign(this._touchInfo,{
         moveFlag: true,
         startSet:{x:e.clientX, y:e.clientY}
       })
 		}, false);
 		this._el.addEventListener("touchmove", (e)=>{
-      console.log(e)
-      tMove(e)
+      this.tMove(e.touches[0])
       e.preventDefault();
     }, false);
-		this._el.addEventListener("touchup", (e)=> {
+		this._el.addEventListener("touchup", ()=> {
       this._touchInfo.moveFlag = false;
     }, false);
 
 
   }
-  touch(){
-
-  }
-  add(isX, isRise, no = 1){
-    let axis = Number(!!isX), {wtNo, weight} = this.addfuction(isRise, axis);
-
-    for(let c =0; c<no;c++){
-
+  tMove(e){
+    if (this._touchInfo.moveFlag) {
+      let {clientX: x, clientY: y}= e;
+      x = this._touchInfo.startSet.x - x;
+      y = this._touchInfo.startSet.y - y;
+      if (Math.abs(x) > 100 || Math.abs(y) > 100) {
+        if (Math.abs(x) > Math.abs(y)) {
+          if (x > 0) {
+            this.move(4);
+          } else {
+            this.move(2)
+          }
+        } else {
+          if (y > 0) {
+            this.move(1)
+          } else {
+            this.move(3)
+          }
+        }
+        this._touchInfo.moveFlag = false
+      }
     }
+  }
+  add(isX, isRise, type){
+    let axis = Number(!!isX), {wtNo, weight} = this.addfuction(isRise, axis);
     let total = 0,
     isHaveToCheckLose = true,
     empty = Object.entries(this._map).reduce((c, [key, val])=>{
@@ -243,16 +249,27 @@ class Game2048 {
       }
       return c
     }, {});
+    if(this.addList[0]){
+      let lo = this.addList.shift();
+      if(lo.isX == isX && lo.isRise == isRise){
+        this.historyList[0].addInfo = lo
+        this.init([lo.keyToAdd])
+        return false
+      }else{
+        this.addList = []
+      }
+    }
     if(total>0){
       let keyToAdd, randomPick = r.float(0, total), emptyArr = Object.entries(empty);
       isHaveToCheckLose = !emptyArr[1]
       for(let [k,v] of emptyArr){
         randomPick -= v;
-        if(randomPick<=0){
+        if(randomPick <= 0){
           keyToAdd = [...k.split('_'), r.int(1, 2)]
           break
         }
       }
+      this.historyList[0].addInfo = {isX, isRise, keyToAdd, type}
       this.init([keyToAdd])
     }
     return isHaveToCheckLose
@@ -302,6 +319,10 @@ class Game2048 {
       return !!animateList[0]
     }
     if(animateList[0]){
+      this.historyList.unshift({
+        animate: animateList,
+      })
+      this.historyList[this._options.historyLength - 1] && this.historyList.pop()
       setTimeout(() => {
         animateList.forEach((i) => {
           let value = this._map[i.from.join('_')].value;
@@ -313,7 +334,7 @@ class Game2048 {
             this._map[i.from.join('_')].animate = ''
           }, 100);
         })
-        let isHaveToCheckLose = this.add();
+        let isHaveToCheckLose = this.add(isX, isRise, type);
         if(isHaveToCheckLose){
           let [a1, a2] = [this.move(1, true),this.move(2, true)]
           console.warn('x:',a2,'y:',a1)
@@ -323,6 +344,11 @@ class Game2048 {
         }
         setTimeout(() => {
           this.onAnimate = false
+          let thisMap = {}
+          Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
+          this.historyList[0].map = thisMap
+          this.renewHistory()
+          this.$onchange && this.$onchange(this.historyList[0], this._global)
         }, 100);
       }, this._options.animation_duration + 200);
     }else if(!isCheckOnly){
@@ -333,6 +359,74 @@ class Game2048 {
         this._el.classList.remove('is-error')
       }, 150);
       this.onAnimate = false
+    }
+    this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
+  }
+  moveBackworld(){
+    if(this.historyList[0]){
+      let {animate: animateList,addInfo:{isX, isRise, keyToAdd, type}} = this.historyList.shift(),
+      addMap = {},
+      toReNew = true,
+      newKey = keyToAdd[0]+'_'+keyToAdd[1],
+      lastMap = JSON.parse(JSON.stringify(this._map));
+      this.addList.unshift({isX, isRise, keyToAdd, type})
+      this._map[newKey].class = 'is-gone'
+      this.onAnimate = true
+      animateList = animateList.reverse()
+      animateList.forEach(i=>{
+        let value = lastMap[i.to.join('_')].value;
+        // this._map[i.from.join('_')].class = i.isAdd ? 'is-up lv_'+ (value+1) : ''
+        i.thisValue = value
+        i.isAdd && (addMap[i.to.join('_')] = true)
+        this._map[i.from.join('_')].value = value;
+        this._map[i.from.join('_')].animate = [
+          'transition-duration: 0ms',
+          // (i.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
+          `transform: translate${isX?'Y':'X'}(${(isRise?1:-1) * i.moved*100}%)`,
+          `z-index:${value * 100 + i.moved+1}`
+        ].filter(_=>_).join(';');
+        // console.log(
+        //   'last', i.to.map(i=>parseInt(i)+1).join('_'),
+        //   'now', i.from.map(i=>parseInt(i)+1).join('_'),
+        //   this._map[i.from.join('_')].animate, i)
+        if(newKey === i.from.join('_') || newKey === i.to.join('_')){
+          toReNew = false
+        }
+      })
+      setTimeout((toReNew) => {
+        this._map[newKey].class = ''
+        toReNew && (this._map[newKey].value = 0);
+        animateList.forEach((i) => {
+          let value = i.thisValue;
+          if(i.isAdd || addMap[i.to.join('_')]){
+            // console.log(i, i.to, i.from)
+            this._map[i.to.join('_')].value = i.isAdd ? value - 1 : 0
+            this._map[i.from.join('_')].value = value - 1
+          }else{
+            this._map[i.from.join('_')].value = value
+            this._map[i.to.join('_')].value = 0
+          }
+          // if(i.isAdd){
+          // }else{
+          //   this._map[i.from.join('_')].value = 0
+          // }
+          // this._map[i.from.join('_')].animate = `z-index:${value * 100 + i.moved+1}`
+          this._map[i.from.join('_')].animate = ''
+          this._map[i.from.join('_')].class = ''
+          this._map[i.to.join('_')].class = ''
+          // setTimeout(() => {
+          //   this._map[i.from.join('_')].animate = ''
+          // }, 100);
+        })
+        setTimeout(() => {
+          this.onAnimate = false
+          let thisMap = {}
+          Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
+          this.renewHistory()
+          this.$onchange && this.$onchange(this.historyList[0], this._global)
+        }, 100);
+      }, this._options.animation_duration + 200, toReNew);
+      this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
     }
   }
   moveCell(xy, isX, isRise, map) { // type 横0 竖1
@@ -385,6 +479,22 @@ class Game2048 {
         isAdd: false
       }
     }
+  }
+  renewHistory(isInit){
+    if(isInit){
+      let storage = window.localStorage.getItem('history_list')||[]
+      try{
+        storage = JSON.parse(storage)
+      }catch(e){
+        storage = []
+      }
+      this.historyList = storage
+    }else{
+      window.localStorage.setItem('history_list', JSON.stringify(this.historyList))
+    }
+    setTimeout(() => {
+      this._global.historyLength = this.historyList.length
+    }, 0);
   }
   dom(attrs = [], tag = 'div') {
     let dom = document.createElement(tag)

@@ -97,6 +97,7 @@ table {
 
 html {
   overflow-y: scroll;
+  height: 100%;
 }
 
 .clearfix:after {
@@ -110,23 +111,38 @@ html {
 .clearfix {
   *zoom: 1;
 }
-
+.is-init{
+  display: none!important;
+}
 body {
   background: #f6f6f6;
   width: 100%;
   overflow-x: hidden;
+  height: 100%;
+}
+.tomatch{
+  position: relative;
+  height: 100%;
 }
 .gameBox{
-  padding: 15px;
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  top: 96%;
+  transform: translateY(-100%);
 }
 .box {
   display: flex;
-  /* width: 96%; */
+  padding: 6px;
+  margin: -6px;
   margin-left: auto;
   margin-right: auto;
   max-width: 860px;
   flex-wrap: wrap;
   font-size: 18px;
+  border-radius: 7px;
+  background-color: #fbfbfb;
 }
 
 .box .cell{
@@ -135,7 +151,6 @@ body {
   width: 25%;
   transition-duration: inherit;
   font-size: inherit;
-  /* transform: translateY(); */
 }
 .box .cell::before{
   content: '';
@@ -146,7 +161,7 @@ body {
   width: calc(100% - 12px);
   padding-top: calc(100% - 12px);
   background-color: rgba(255, 255, 255, .1);
-  box-shadow: 0 2px 8px 2px rgba(0,0,0,0.01);
+  box-shadow: 0 2px 8px 2px rgba(0,0,0,0.025);
   border-radius: 5px;
 }
 .box .cell-box{
@@ -205,6 +220,40 @@ body {
   font-weight: 1000;
 }
 
+.btn-box{
+  padding-top: 20px;
+  display: flex;
+}
+.btn-box .btn{
+  margin-left: auto;
+  height: 1.6em;
+  line-height: 1.6;
+  text-align: center;
+  font-size: 16px;
+  width: 5em;
+  border-radius: 7px;
+  transition: 2s all;
+  color: #fff;
+  font-size: 100%!important;
+}
+
+.btn-box .btn.re-back{
+  margin-left: 0;
+  margin-right: auto;
+  color: #ccc;
+  /* border: 1px solid #ccc; */
+  transition: all .8s;
+}
+.btn.hide{
+  transform-origin: 50% 100%;
+  transition-property: 600;
+  transform: rotateX(90deg) translateY(100%);
+  opacity: 0;
+}
+.btn:active{
+  transition: 0.1s!important;
+  box-shadow: inset rgba(255, 255, 255, .6) 0 0 18px 3px;
+}
 .is-error{
   animation: is_error .075s infinite alternate-reverse;
 }
@@ -215,6 +264,10 @@ body {
 .is-new .cell-wrap{
   opacity: 0;
   animation: is_new .2s forwards;
+}
+.is-gone .cell-wrap{
+  opacity: 1;
+  animation: is_new .2s forwards reverse;
 }
 .is-up .cell-wrap{
   animation: is_up .2s;
@@ -240,101 +293,101 @@ body {
     transform: scale(1);
   }
 }
-.lv_0 .cell-wrap{
+.lv_0 .cell-back{
   opacity: 0;
 }
-.lv_1 .cell-wrap{
+.lv_1 .cell-back{
   background-color: #1fddff;
   z-index: 3;
 }
-.lv_2 .cell-wrap{
+.lv_2 .cell-back{
   background-color: #27bdfe;
   z-index: 4;
 }
-.lv_3 .cell-wrap{
+.lv_3 .cell-back{
   background-color: #2f9cfd;
   z-index: 5;
 }
-.lv_4 .cell-wrap{
+.lv_4 .cell-back{
   background-color: #377efc;
   z-index: 6;
 }
-.lv_5 .cell-wrap{
+.lv_5 .cell-back{
   background-color: #3F5EFB;
   font-size: 95%;
   z-index: 7;
 }
-.lv_6 .cell-wrap{
+.lv_6 .cell-back{
   background-color: #6c64db;
   font-size: 95%;
   z-index: 8;
 }
-.lv_7 .cell-wrap{
+.lv_7 .cell-back{
   background-color: #9a6cbd;
   font-size: 95%;
   z-index: 9;
 }
-.lv_8 .cell-wrap{
+.lv_8 .cell-back{
   background-color: #c8729d;
   font-size: 95%;
   z-index: 10;
 }
-.lv_9 .cell-wrap{
+.lv_9 .cell-back{
   background-color: #f7797d;
   font-size: 95%;
   z-index: 11;
 }
-.lv_10 .cell-wrap{
+.lv_10 .cell-back{
   background-color: #f8907f;
   font-size: 90%;
   z-index: 12;
 }
-.lv_11 .cell-wrap{
+.lv_11 .cell-back{
   background-color: #f9a281;
   font-size: 90%;
   z-index: 13;
 }
-.lv_12 .cell-wrap{
+.lv_12 .cell-back{
   background-color: #fabe83;
   font-size: 90%;
   z-index: 14;
 }
-.lv_13 .cell-wrap{
+.lv_13 .cell-back{
   background-color: #FBD786;
   font-size: 90%;
   z-index: 15;
 }
-.lv_14 .cell-wrap{
+.lv_14 .cell-back{
   font-size: 83%;
   background-color: #dc9f68;
   z-index: 16;
 }
-.lv_15 .cell-wrap{
+.lv_15 .cell-back{
   font-size: 83%;
   background-color: #ba6046;
   z-index: 17;
 }
-.lv_16 .cell-wrap{
+.lv_16 .cell-back{
   font-size: 83%;
   background-color: #A43931;
   z-index: 18;
 }
-.lv_17 .cell-wrap{
+.lv_17 .cell-back{
   font-size: 83%;
   background-color: #833c39;
   z-index: 19;
 }
-.lv_18 .cell-wrap{
+.lv_18 .cell-back{
   font-size: 83%;
   background-color: #623e40;
   z-index: 20;
 }
-.lv_19 .cell-wrap{
+.lv_19 .cell-back{
   font-size: 83%;
   background-color: #414048;
   z-index: 21;
 }
-.lv_20 .cell-wrap{
+.lv_20 .cell-back{
   font-size: 80%;
   background-color: #1D4350;
   z-index: 22;
