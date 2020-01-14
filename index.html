@@ -14,7 +14,7 @@
       <ul class="box" id="box">
       </ul>
       <div class="btn-box lv_1" id="btn-box">
-        <span id="re-back" class="btn re-back is-init">Re.Back</span>
+        <span id="re-back" class="btn re-back is-init">Re.Back(0)</span>
         <span id="re-new" class="btn re-new  cell-back is-init" style="display: block;">Re.New</span>
       </div>
     </div>
@@ -41,9 +41,11 @@
     lastLv = Array.from(cList).find(i=>/^lv_/.test(i))
     cList.remove(lastLv)
     cList.add('lv_' + newValue)
-  }, reNew)
+  }, reBox)
   game.subscribe(game._global, 'his_len', 'historyLength', (newValue, tDom) => {
-    if(newValue == 0){
+    let text = tDom.innerText;
+    tDom.innerText = text.replace(/\(\d+\)/, `(${newValue - 1})`)
+    if(newValue <= 1){
       tDom.classList.add('hide')
     }else{
       tDom.classList.remove('hide')

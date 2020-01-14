@@ -23,8 +23,7 @@ class Game2048 {
   constructor(el, opts = {}) {
     if (typeof opts == "number") {
       opts = {
-        spec: opts,
-        historyLength: 3
+        spec: opts
       }
     } else {
 
@@ -35,7 +34,8 @@ class Game2048 {
     this.renewHistory(true)
     this._options = opts = Object.assign({
       spec: 4,
-      stepPower: 2
+      stepPower: 2,
+      historyLimit: 3
     }, opts)
     this._map = {}
     this.$onchange = null
@@ -116,7 +116,7 @@ class Game2048 {
     }
     this.init(this.historyList[0] && Object.entries(this.historyList[0].map).map(([k, v])=>[...k.split('_'), v]) || 4)
     setTimeout(() => {
-      this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
+      this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
     }, 0);
     // this.init([
     //   [0, 0, 1],
@@ -154,6 +154,7 @@ class Game2048 {
       this._map[key].class = ''
     })
     this.init()
+    this.renewHistory()
   }
   init(init = 4) {
     if (init instanceof Array) {
@@ -186,6 +187,7 @@ class Game2048 {
     let opts = {
       moveFlag: false,
       startSet:{},
+      threshold: 40
     };
     this._touchInfo = opts
     this._el.addEventListener("mousedown", (e)=> {
@@ -194,7 +196,7 @@ class Game2048 {
         startSet:{x:e.clientX, y:e.clientY}
       })
 		}, false);
-		this._el.addEventListener("mousemove", this.tMove, false);
+		this._el.addEventListener("mousemove", this.tMove.bind(this), false);
 		this._el.addEventListener("mouseup", ()=> {
 			this._touchInfo.moveFlag = false;
 		}, false);
@@ -219,7 +221,7 @@ class Game2048 {
       let {clientX: x, clientY: y}= e;
       x = this._touchInfo.startSet.x - x;
       y = this._touchInfo.startSet.y - y;
-      if (Math.abs(x) > 100 || Math.abs(y) > 100) {
+      if (Math.abs(x) > this._touchInfo.threshold || Math.abs(y) > this._touchInfo.threshold) {
         if (Math.abs(x) > Math.abs(y)) {
           if (x > 0) {
             this.move(4);
@@ -322,7 +324,7 @@ class Game2048 {
       this.historyList.unshift({
         animate: animateList,
       })
-      this.historyList[this._options.historyLength - 1] && this.historyList.pop()
+      this.historyList[this._options.historyLimit + 1] && this.historyList.pop()
       setTimeout(() => {
         animateList.forEach((i) => {
           let value = this._map[i.from.join('_')].value;
@@ -348,6 +350,7 @@ class Game2048 {
           Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
           this.historyList[0].map = thisMap
           this.renewHistory()
+          this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
           this.$onchange && this.$onchange(this.historyList[0], this._global)
         }, 100);
       }, this._options.animation_duration + 200);
@@ -360,42 +363,44 @@ class Game2048 {
       }, 150);
       this.onAnimate = false
     }
-    this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
   }
   moveBackworld(){
-    if(this.historyList[0]){
+    if(this.historyList[1]){
       let {animate: animateList,addInfo:{isX, isRise, keyToAdd, type}} = this.historyList.shift(),
       addMap = {},
       toReNew = true,
       newKey = keyToAdd[0]+'_'+keyToAdd[1],
       lastMap = JSON.parse(JSON.stringify(this._map));
+      this._el.classList.add('shake-type-'+type)
       this.addList.unshift({isX, isRise, keyToAdd, type})
       this._map[newKey].class = 'is-gone'
       this.onAnimate = true
-      animateList = animateList.reverse()
-      animateList.forEach(i=>{
-        let value = lastMap[i.to.join('_')].value;
-        // this._map[i.from.join('_')].class = i.isAdd ? 'is-up lv_'+ (value+1) : ''
-        i.thisValue = value
-        i.isAdd && (addMap[i.to.join('_')] = true)
-        this._map[i.from.join('_')].value = value;
-        this._map[i.from.join('_')].animate = [
-          'transition-duration: 0ms',
-          // (i.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
-          `transform: translate${isX?'Y':'X'}(${(isRise?1:-1) * i.moved*100}%)`,
-          `z-index:${value * 100 + i.moved+1}`
-        ].filter(_=>_).join(';');
-        // console.log(
-        //   'last', i.to.map(i=>parseInt(i)+1).join('_'),
-        //   'now', i.from.map(i=>parseInt(i)+1).join('_'),
-        //   this._map[i.from.join('_')].animate, i)
-        if(newKey === i.from.join('_') || newKey === i.to.join('_')){
-          toReNew = false
-        }
-      })
-      setTimeout((toReNew) => {
+      setTimeout(() => {
         this._map[newKey].class = ''
+        animateList = animateList.reverse()
+        animateList.forEach(i=>{
+          let value = lastMap[i.to.join('_')].value;
+          // this._map[i.from.join('_')].class = i.isAdd ? 'is-up lv_'+ (value+1) : ''
+          i.thisValue = value
+          i.isAdd && (addMap[i.to.join('_')] = true)
+          this._map[i.from.join('_')].value = value;
+          this._map[i.from.join('_')].animate = [
+            'transition-duration: 0ms',
+            // (i.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
+            `transform: translate${isX?'Y':'X'}(${(isRise?1:-1) * i.moved*100}%)`,
+            `z-index:${value * 100 + i.moved+1}`
+          ].filter(_=>_).join(';');
+          // console.log(
+          //   'last', i.to.map(i=>parseInt(i)+1).join('_'),
+          //   'now', i.from.map(i=>parseInt(i)+1).join('_'),
+          //   this._map[i.from.join('_')].animate, i)
+          if(newKey === i.from.join('_') || newKey === i.to.join('_')){
+            toReNew = false
+          }
+        })
         toReNew && (this._map[newKey].value = 0);
+      }, 200);
+      setTimeout(()=> {
         animateList.forEach((i) => {
           let value = i.thisValue;
           if(i.isAdd || addMap[i.to.join('_')]){
@@ -420,13 +425,14 @@ class Game2048 {
         })
         setTimeout(() => {
           this.onAnimate = false
+          this._el.classList.remove('shake-type-'+type)
           let thisMap = {}
           Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
           this.renewHistory()
+          this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
           this.$onchange && this.$onchange(this.historyList[0], this._global)
         }, 100);
-      }, this._options.animation_duration + 200, toReNew);
-      this._global.max = Object.entries(this._map).reduce((p,[k,{value: v}])=>v>p?v:p, 0) // 统计最大最小值
+      }, this._options.animation_duration);
     }
   }
   moveCell(xy, isX, isRise, map) { // type 横0 竖1
