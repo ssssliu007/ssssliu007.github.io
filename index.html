@@ -44,10 +44,12 @@
   }, reBox)
   game.subscribe(game._global, 'his_len', 'historyLength', (newValue, tDom) => {
     let text = tDom.innerText;
-    tDom.innerText = text.replace(/\(\d+\)/, `(${newValue - 1})`)
+    let textValue = newValue;
+    textValue -= 1;
     if(newValue <= 1){
       tDom.classList.add('hide')
     }else{
+      tDom.innerText = text.replace(/\(\d+\)/, `(${textValue})`)
       tDom.classList.remove('hide')
     }
   }, reBack)

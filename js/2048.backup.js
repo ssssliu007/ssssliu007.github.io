@@ -112,12 +112,38 @@ class Game2048 {
         this._map[key].value = 0;
         this._map[key].class = '';
         this._map[key].animate = '';
+        // this._set(this._map[key], 'value', 0)
+        // this._set(this._map[key], 'class', '')
+        // this._set(this._map[key], 'animate', '')
       }
     }
     this.init(this.historyList[0] && Object.entries(this.historyList[0].map).map(([k, v])=>[...k.split('_'), v]) || 4)
     setTimeout(() => {
       this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
     }, 0);
+    // this.init([
+    //   [0, 0, 1],
+    //   [1, 0, 1],
+    //   [2, 0, 1],
+    //   [3, 0, 2],
+    // ])
+    // this.init([
+    //   [0, 0, 17],
+    //   [1, 0, 18],
+    //   [2, 0, 19],
+    //   [3, 0, 20],
+    //   [0, 1, 5],
+    //   [1, 1, 6],
+    //   [2, 1, 7],
+    //   [3, 1, 8],
+    //   [0, 2, 9],
+    //   [1, 2, 10],
+    //   [2, 2, 11],
+    //   [3, 2, 12],
+    //   [0, 3, 1],
+    //   [1, 3, 2],
+    //   [2, 3, 1],
+    // ])
     this.done = new Promise((a)=>{
       setTimeout(() => {
         a()
@@ -136,8 +162,13 @@ class Game2048 {
   init(init = 4) {
     if (init instanceof Array) {
       init.map(([x, y, v]) => {
+        // this._set(this._map[x+'_'+y], 'value', v)
         this._map[x + '_' + y].value = v
         this._map[x + '_' + y].class = v && 'is-new' || ''
+        // this._map[x+'_'+y] = {
+        //   value: v,
+        //   animate: ''
+        // }
       })
     } else {
       let count = 99999
@@ -536,4 +567,34 @@ class Game2048 {
       })
     }
   }
+  // _set(target, key, val){
+  //   target[key] = val
+  //   return val
+  // }
+  // _set(target, key, val) {
+  //   if (Array.isArray(target) && isValidArrayIndex(key)) {
+  //     target.length = Math.max(target.length, key)
+  //     target.splice(key, 1, val)
+  //     return val
+  //   }
+  //   if (key in target && !(key in Object.prototype)) {
+  //     target[key] = val
+  //     return val
+  //   }
+  //   const ob = target.__ob__
+  //   if (target._isVue || (ob && ob.vmCount)) {
+  //     process.env.NODE_ENV !== 'production' && warn(
+  //       'Avoid adding reactive properties to a Vue instance or its root $data ' +
+  //       'at runtime - declare it upfront in the data option.'
+  //     )
+  //     return val
+  //   }
+  //   if (!ob) {
+  //     target[key] = val
+  //     return val
+  //   }
+  //   defineReactive(ob.value, key, val)
+  //   ob.dep.notify()
+  //   return val
+  // }
 }
