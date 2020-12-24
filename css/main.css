@@ -143,6 +143,7 @@ body {
   font-size: 18px;
   border-radius: 7px;
   background-color: #fbfbfb;
+  touch-action: none;
 }
 
 .box .cell{

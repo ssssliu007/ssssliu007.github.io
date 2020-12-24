@@ -46,9 +46,9 @@ class Game2048 {
     }
     this._el = el
     this.subscribe(this._options, '_options', 'animation_duration', (newValue, tDom, tName) => {
-      tDom.setAttribute(tName,'transition-duration:'+newValue+'ms')
+      tDom.setAttribute(tName, 'transition-duration:' + newValue + 'ms')
     }, el, 'style')
-    this._options.animation_duration = 300
+    this._options.animation_duration = 1000
     this.initTouch()
     for (let y = 0; y < opts.spec; y++) {
       for (let x = 0; x < opts.spec; x++) {
@@ -71,7 +71,7 @@ class Game2048 {
             [{
               attrName: 'class',
               value: 'cell-box'
-            },{
+            }, {
               attrName: 'style',
               target: this._map[key],
               targetName: '_map_' + key,
@@ -84,13 +84,13 @@ class Game2048 {
               target: this._map[key],
               targetName: '_map_' + key,
               key: 'value',
-              value: (v) =>  [this._map[key].baceClass, this._map[key].class, 'lv_'+ v].filter(_=>_).join(' ')
-            },{
+              value: (v) => [this._map[key].baceClass, this._map[key].class, 'lv_' + v].filter(_ => _).join(' ')
+            }, {
               attrName: 'class',
               target: this._map[key],
               targetName: '_map_' + key,
               key: 'class',
-              value: (v) => [this._map[key].baceClass, v, 'lv_'+ this._map[key].value].filter(_=>_).join(' ')
+              value: (v) => [this._map[key].baceClass, v, 'lv_' + this._map[key].value].filter(_ => _).join(' ')
             }], 'li'
           ]
         ].reduce((dom, cell) => {
@@ -98,35 +98,36 @@ class Game2048 {
           cellDom.appendChild(dom)
           return cellDom
         }, this.dom([{
-            attrName: 'innerText',
-            target: this._map[key],
-            targetName: '_map_' + key,
-            key: 'value',
-            value:(v)=>Math.pow(this._options.stepPower, v)
-          },
-          {
-            attrName: 'class',
-            value: 'cell-inner'
-          }
+          attrName: 'innerText',
+          target: this._map[key],
+          targetName: '_map_' + key,
+          key: 'value',
+          value: (v) => Math.pow(this._options.stepPower, v)
+        },
+        {
+          attrName: 'class',
+          value: 'cell-inner'
+        }
         ])))
         this._map[key].value = 0;
         this._map[key].class = '';
         this._map[key].animate = '';
       }
     }
-    this.init(this.historyList[0] && Object.entries(this.historyList[0].map).map(([k, v])=>[...k.split('_'), v]) || 4)
+    this.init(this.historyList[0] && Object.entries(this.historyList[0].map).map(([k, v]) => [...k.split('_'), v]) || 4)
     setTimeout(() => {
-      this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
+      this._global.max = Object.values(this._map).reduce((p, { value: v }) => v > p ? v : p, 0) // 统计最大最小值
     }, 0);
-    this.done = new Promise((a)=>{
+    this.done = new Promise((a) => {
       setTimeout(() => {
         a()
       }, 0);
     })
   }
-  reNew(){
+  reNew() {
+    console.log(this)
     this.historyList = [];
-    Object.keys(this._map).forEach(key=>{
+    Object.keys(this._map).forEach(key => {
       this._map[key].value = 0;
       this._map[key].class = ''
     })
@@ -149,48 +150,48 @@ class Game2048 {
           this._map[key].class = 'is-new'
           init--
         }
-        if(count==0){
+        if (count == 0) {
           console.error('max called')
         }
-      } while (count>0 && init > 0)
+      } while (count > 0 && init > 0)
     }
   }
-  initTouch(){
+  initTouch() {
     let opts = {
       moveFlag: false,
-      startSet:{},
+      startSet: {},
       threshold: 40
     };
     this._touchInfo = opts
-    this._el.addEventListener("mousedown", (e)=> {
-      Object.assign(this._touchInfo,{
+    this._el.addEventListener("mousedown", (e) => {
+      Object.assign(this._touchInfo, {
         moveFlag: true,
-        startSet:{x:e.clientX, y:e.clientY}
+        startSet: { x: e.clientX, y: e.clientY }
       })
-		}, false);
-		this._el.addEventListener("mousemove", this.tMove.bind(this), false);
-		this._el.addEventListener("mouseup", ()=> {
-			this._touchInfo.moveFlag = false;
-		}, false);
-		this._el.addEventListener("touchstart", ({touches:[e]})=> {
-			Object.assign(this._touchInfo,{
+    }, false);
+    this._el.addEventListener("mousemove", this.tMove.bind(this), false);
+    this._el.addEventListener("mouseup", () => {
+      this._touchInfo.moveFlag = false;
+    }, false);
+    this._el.addEventListener("touchstart", ({ touches: [e] }) => {
+      Object.assign(this._touchInfo, {
         moveFlag: true,
-        startSet:{x:e.clientX, y:e.clientY}
+        startSet: { x: e.clientX, y: e.clientY }
       })
-		}, false);
-		this._el.addEventListener("touchmove", (e)=>{
+    }, false);
+    this._el.addEventListener("touchmove", (e) => {
       this.tMove(e.touches[0])
       e.preventDefault();
     }, false);
-		this._el.addEventListener("touchup", ()=> {
+    this._el.addEventListener("touchup", () => {
       this._touchInfo.moveFlag = false;
     }, false);
 
 
   }
-  tMove(e){
+  tMove(e) {
     if (this._touchInfo.moveFlag) {
-      let {clientX: x, clientY: y}= e;
+      let { clientX: x, clientY: y } = e;
       x = this._touchInfo.startSet.x - x;
       y = this._touchInfo.startSet.y - y;
       if (Math.abs(x) > this._touchInfo.threshold || Math.abs(y) > this._touchInfo.threshold) {
@@ -211,59 +212,70 @@ class Game2048 {
       }
     }
   }
-  add(isX, isRise, type){
-    let axis = Number(!!isX), {wtNo, weight} = this.addfuction(isRise, axis);
+  add(isX, isRise, type) {
+    let axis = Number(!!isX), { wtNo, weight } = this.addfuction(isRise, axis);
     let total = 0,
-    isHaveToCheckLose = true,
-    empty = Object.entries(this._map).reduce((c, [key, val])=>{
-      if(!val.value){
-        let tWeight = parseInt(weight(key, wtNo))
-        total += tWeight
-        c[key] = tWeight
-      }
-      return c
-    }, {});
-    if(this.addList[0]){
+      isHaveToCheckLose = true,
+      empty = Object.entries(this._map).reduce((c, [key, val]) => {
+        if (!val.value) {
+          let tWeight = parseInt(weight(key, wtNo))
+          total += tWeight
+          c[key] = tWeight
+        }
+        return c
+      }, {});
+    if (this.addList[0]) {
       let lo = this.addList.shift();
-      if(lo.isX == isX && lo.isRise == isRise){
+      if (lo.isX == isX && lo.isRise == isRise) {
         this.historyList[0].addInfo = lo
         this.init([lo.keyToAdd])
         return false
-      }else{
+      } else {
         this.addList = []
       }
     }
-    if(total>0){
+    if (total > 0) {
       let keyToAdd, randomPick = r.float(0, total), emptyArr = Object.entries(empty);
       isHaveToCheckLose = !emptyArr[1]
-      for(let [k,v] of emptyArr){
+      for (let [k, v] of emptyArr) {
         randomPick -= v;
-        if(randomPick <= 0){
+        if (randomPick <= 0) {
           keyToAdd = [...k.split('_'), r.int(1, 2)]
           break
         }
       }
-      this.historyList[0].addInfo = {isX, isRise, keyToAdd, type}
+      this.historyList[0].addInfo = { isX, isRise, keyToAdd, type }
       this.init([keyToAdd])
     }
     return isHaveToCheckLose
   }
-  addfuction(isRise, axis){
-    let wtNo = ((isRise)=>{
-      return isRise ? (i)=>this._options.spec-i:(i)=>i+1
+  addfuction(isRise, axis) {
+    let wtNo = ((isRise) => {
+      return isRise ? (i) => this._options.spec - i : (i) => i + 1
     })(isRise)
-    return{
+    return {
       wtNo,
-      weight(key, wtNo){
+      weight(key, wtNo) {
         let xy = key.split('_');
         let nAxis = axis
         return wtNo(xy[nAxis])
       }
     }
   }
+  moveDone = null;
   move(type, isCheckOnly) {
-  // 上右下左 1234 上左 正序；下右 倒叙
-    if(!isCheckOnly && this.onAnimate){
+    // 上右下左 1234 上左 正序；下右 倒叙
+    if (!isCheckOnly && this.onAnimate) {
+      let lastD = this._options.animation_duration;
+      this._options.animation_duration = 0;
+      setTimeout(() => {
+        this.moveDone();
+        this.moveDone = null;
+        this._options.animation_duration = lastD;
+        setTimeout(() => {
+          this.move(type, isCheckOnly)
+        }, 100);
+      }, 10);
       return
     }
     this.onAnimate = true
@@ -277,27 +289,30 @@ class Game2048 {
       mapToChange = JSON.parse(JSON.stringify(this._map));
     list.forEach(([i, v]) => {
       let animate = this.moveCell(i.split('_'), isX, isRise, mapToChange)
-      if(animate){
+      // 如果有移动 则添加动画到列表
+      if (animate) {
         animateList.push(animate)
-        if(isCheckOnly){ return}
+        if (isCheckOnly) { return }
         let value = this._map[animate.from.join('_')].value;
-        this._map[animate.from.join('_')].class = animate.isAdd ? 'is-up lv_'+ (value+1) : ''
+        this._map[animate.from.join('_')].class = animate.isAdd ? 'is-up lv_' + (value + 1) : ''
         this._map[animate.from.join('_')].animate = [
-          (animate.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
-          `transform: translate${isX?'Y':'X'}(${(isRise?1:-1) * animate.moved*100}%)`,
-          `z-index:${value * 100 + animate.moved+1};`
-        ].filter(_=>_).join(';');
+          (animate.isAdd ? 'animation-delay:' + this._options.animation_duration * 1 + 'ms' : ''),
+          `transform: translate${isX ? 'Y' : 'X'}(${(isRise ? 1 : -1) * animate.moved * 100}%)`,
+          `z-index:${value * 100 + animate.moved + 1};`
+        ].filter(_ => _).join(';');
       }
     })
-    if(isCheckOnly){
+    if (isCheckOnly) {
       return !!animateList[0]
     }
-    if(animateList[0]){
+    if (animateList[0]) {
       this.historyList.unshift({
         animate: animateList,
       })
       this.historyList[this._options.historyLimit + 1] && this.historyList.pop()
-      setTimeout(() => {
+
+      this.moveDone = () => {
+        // 执行动画结束 开始归为模块 并赋值
         animateList.forEach((i) => {
           let value = this._map[i.from.join('_')].value;
           this._map[i.from.join('_')].value = 0
@@ -306,27 +321,34 @@ class Game2048 {
           this._map[i.from.join('_')].class = ''
           setTimeout(() => {
             this._map[i.from.join('_')].animate = ''
-          }, 100);
+          }, 10);
         })
+
+        // 失败检测
         let isHaveToCheckLose = this.add(isX, isRise, type);
-        if(isHaveToCheckLose){
-          let [a1, a2] = [this.move(1, true),this.move(2, true)]
-          console.warn('x:',a2,'y:',a1)
-          if(!this.move(1, true) && !this.move(2, true)){
-            this.showModle('lose',{a1,a2})
+        if (isHaveToCheckLose) {
+          let [a1, a2] = [this.move(1, true), this.move(2, true)]
+          console.warn('x:', a2, 'y:', a1)
+          if (!this.move(1, true) && !this.move(2, true)) {
+            this.showModle('lose', { a1, a2 })
           }
         }
-        setTimeout(() => {
+
+        setTimeout(() => {// 写入数据到历史列表 刷新最大值 出发全局change钩子
           this.onAnimate = false
           let thisMap = {}
-          Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
+          Object.entries(this._map).reduce((m, [k, v]) => { m[k] = v.value; return m }, thisMap)
           this.historyList[0].map = thisMap
           this.renewHistory()
-          this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
+          this._global.max = Object.values(this._map).reduce((p, { value: v }) => v > p ? v : p, 0) // 统计最大最小值
           this.$onchange && this.$onchange(this.historyList[0], this._global)
-        }, 100);
-      }, this._options.animation_duration + 200);
-    }else if(!isCheckOnly){
+        }, 10);
+      }
+      setTimeout(()=>{
+        this.moveDone && this.moveDone();
+      }, this._options.animation_duration + 50);
+
+    } else if (!isCheckOnly) {
       this._el.classList.add('is-error')
       // this.onAnimate = true
       console.info('none Done')
@@ -336,76 +358,77 @@ class Game2048 {
       this.onAnimate = false
     }
   }
-  moveBackworld(){
-    if(this.historyList[1]){
-      let {animate: animateList,addInfo:{isX, isRise, keyToAdd, type}} = this.historyList.shift(),
+  moveBackworld() {
+    if (!this.historyList[1]) {
+      return
+    }
+    let { animate: animateList, addInfo: { isX, isRise, keyToAdd, type } } = this.historyList.shift(),
       addMap = {},
       toReNew = true,
-      newKey = keyToAdd[0]+'_'+keyToAdd[1],
+      newKey = keyToAdd[0] + '_' + keyToAdd[1],
       lastMap = JSON.parse(JSON.stringify(this._map));
-      this._el.classList.add('shake-type-'+type)
-      this.addList.unshift({isX, isRise, keyToAdd, type})
-      this._map[newKey].class = 'is-gone'
-      this.onAnimate = true
+    this._el.classList.add('shake-type-' + type)
+    this.addList.unshift({ isX, isRise, keyToAdd, type })
+    this._map[newKey].class = 'is-gone'
+    this.onAnimate = true
+    setTimeout(() => {
+      this._map[newKey].class = ''
+      animateList = animateList.reverse()
+      animateList.forEach(i => {
+        let value = lastMap[i.to.join('_')].value;
+        // this._map[i.from.join('_')].class = i.isAdd ? 'is-up lv_'+ (value+1) : ''
+        i.thisValue = value
+        i.isAdd && (addMap[i.to.join('_')] = true)
+        this._map[i.from.join('_')].value = value;
+        this._map[i.from.join('_')].animate = [
+          'transition-duration: 0ms',
+          // (i.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
+          `transform: translate${isX ? 'Y' : 'X'}(${(isRise ? 1 : -1) * i.moved * 100}%)`,
+          `z-index:${value * 100 + i.moved + 1}`
+        ].filter(_ => _).join(';');
+        // console.log(
+        //   'last', i.to.map(i=>parseInt(i)+1).join('_'),
+        //   'now', i.from.map(i=>parseInt(i)+1).join('_'),
+        //   this._map[i.from.join('_')].animate, i)
+        if (newKey === i.from.join('_') || newKey === i.to.join('_')) {
+          toReNew = false
+        }
+      })
+      toReNew && (this._map[newKey].value = 0);
+    }, 200);
+    setTimeout(() => {
+      animateList.forEach((i) => {
+        let value = i.thisValue;
+        if (i.isAdd || addMap[i.to.join('_')]) {
+          // console.log(i, i.to, i.from)
+          this._map[i.to.join('_')].value = i.isAdd ? value - 1 : 0
+          this._map[i.from.join('_')].value = value - 1
+        } else {
+          this._map[i.from.join('_')].value = value
+          this._map[i.to.join('_')].value = 0
+        }
+        // if(i.isAdd){
+        // }else{
+        //   this._map[i.from.join('_')].value = 0
+        // }
+        // this._map[i.from.join('_')].animate = `z-index:${value * 100 + i.moved+1}`
+        this._map[i.from.join('_')].animate = ''
+        this._map[i.from.join('_')].class = ''
+        this._map[i.to.join('_')].class = ''
+        // setTimeout(() => {
+        //   this._map[i.from.join('_')].animate = ''
+        // }, 100);
+      })
       setTimeout(() => {
-        this._map[newKey].class = ''
-        animateList = animateList.reverse()
-        animateList.forEach(i=>{
-          let value = lastMap[i.to.join('_')].value;
-          // this._map[i.from.join('_')].class = i.isAdd ? 'is-up lv_'+ (value+1) : ''
-          i.thisValue = value
-          i.isAdd && (addMap[i.to.join('_')] = true)
-          this._map[i.from.join('_')].value = value;
-          this._map[i.from.join('_')].animate = [
-            'transition-duration: 0ms',
-            // (i.isAdd ?'animation-delay:'+this._options.animation_duration*1+'ms':''),
-            `transform: translate${isX?'Y':'X'}(${(isRise?1:-1) * i.moved*100}%)`,
-            `z-index:${value * 100 + i.moved+1}`
-          ].filter(_=>_).join(';');
-          // console.log(
-          //   'last', i.to.map(i=>parseInt(i)+1).join('_'),
-          //   'now', i.from.map(i=>parseInt(i)+1).join('_'),
-          //   this._map[i.from.join('_')].animate, i)
-          if(newKey === i.from.join('_') || newKey === i.to.join('_')){
-            toReNew = false
-          }
-        })
-        toReNew && (this._map[newKey].value = 0);
-      }, 200);
-      setTimeout(()=> {
-        animateList.forEach((i) => {
-          let value = i.thisValue;
-          if(i.isAdd || addMap[i.to.join('_')]){
-            // console.log(i, i.to, i.from)
-            this._map[i.to.join('_')].value = i.isAdd ? value - 1 : 0
-            this._map[i.from.join('_')].value = value - 1
-          }else{
-            this._map[i.from.join('_')].value = value
-            this._map[i.to.join('_')].value = 0
-          }
-          // if(i.isAdd){
-          // }else{
-          //   this._map[i.from.join('_')].value = 0
-          // }
-          // this._map[i.from.join('_')].animate = `z-index:${value * 100 + i.moved+1}`
-          this._map[i.from.join('_')].animate = ''
-          this._map[i.from.join('_')].class = ''
-          this._map[i.to.join('_')].class = ''
-          // setTimeout(() => {
-          //   this._map[i.from.join('_')].animate = ''
-          // }, 100);
-        })
-        setTimeout(() => {
-          this.onAnimate = false
-          this._el.classList.remove('shake-type-'+type)
-          let thisMap = {}
-          Object.entries(this._map).reduce((m, [k,v])=>{m[k] = v.value; return m}, thisMap)
-          this.renewHistory()
-          this._global.max = Object.values(this._map).reduce((p,{value: v})=>v>p?v:p, 0) // 统计最大最小值
-          this.$onchange && this.$onchange(this.historyList[0], this._global)
-        }, 100);
-      }, this._options.animation_duration);
-    }
+        this.onAnimate = false
+        this._el.classList.remove('shake-type-' + type)
+        let thisMap = {}
+        Object.entries(this._map).reduce((m, [k, v]) => { m[k] = v.value; return m }, thisMap)
+        this.renewHistory()
+        this._global.max = Object.values(this._map).reduce((p, { value: v }) => v > p ? v : p, 0) // 统计最大最小值
+        this.$onchange && this.$onchange(this.historyList[0], this._global)
+      }, 100);
+    }, this._options.animation_duration);
   }
   moveCell(xy, isX, isRise, map) { // type 横0 竖1
     xy = xy.map(_ => parseInt(_))
@@ -423,7 +446,7 @@ class Game2048 {
         let tXy = Array.from(xy);
         xy[coor] += dirc;
         let tValue = map[xy.join('_')].value,
-        isMerged = map[xy.join('_')].isMerged;
+          isMerged = map[xy.join('_')].isMerged;
         if ((tValue == value) && !isMerged) {
           map[oXy.join('_')].value = 0
           map[xy.join('_')].value = value * 2
@@ -458,16 +481,16 @@ class Game2048 {
       }
     }
   }
-  renewHistory(isInit){
-    if(isInit){
-      let storage = window.localStorage.getItem('history_list')||[]
-      try{
+  renewHistory(isInit) {
+    if (isInit) {
+      let storage = window.localStorage.getItem('history_list') || []
+      try {
         storage = JSON.parse(storage)
-      }catch(e){
+      } catch (e) {
         storage = []
       }
       this.historyList = storage
-    }else{
+    } else {
       window.localStorage.setItem('history_list', JSON.stringify(this.historyList))
     }
     setTimeout(() => {
@@ -477,12 +500,12 @@ class Game2048 {
   dom(attrs = [], tag = 'div') {
     let dom = document.createElement(tag)
     for (let {
-        attrName,
-        target,
-        targetName,
-        key,
-        value
-      } of attrs) {
+      attrName,
+      target,
+      targetName,
+      key,
+      value
+    } of attrs) {
       if (target && key) {
         this.subscribe(target, targetName, key, (newValue, tDom, tName) => {
           newValue = value ? value(newValue) : newValue
@@ -498,7 +521,7 @@ class Game2048 {
     }
     return dom
   }
-  showModle(name, opts){
+  showModle(name, opts) {
     switch (name) {
       case 'lose':
         setTimeout(() => {

@@ -34,8 +34,12 @@
   let reBack = document.querySelector('#re-back')
   let reNew = document.querySelector('#re-new')
   let reBox = document.querySelector('#btn-box')
-  reBack.addEventListener('click', game.moveBackworld.bind(game))
-  reNew.addEventListener('click', game.reNew.bind(game))
+  reBack.addEventListener('click', game.moveBackworld)
+  reNew.addEventListener('click', ()=>{
+    if(confirm('重新开始？')){
+      game.reNew()
+    }
+  })
   game.subscribe(game._global, 'max_lv', 'max', (newValue, tDom) => {
     let cList = tDom.classList,
     lastLv = Array.from(cList).find(i=>/^lv_/.test(i))
