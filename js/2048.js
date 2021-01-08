@@ -266,16 +266,16 @@ class Game2048 {
   move(type, isCheckOnly) {
     // 上右下左 1234 上左 正序；下右 倒叙
     if (!isCheckOnly && this.onAnimate) {
-      let lastD = this._options.animation_duration;
-      this._options.animation_duration = 0;
-      setTimeout(() => {
-        this.moveDone();
-        this.moveDone = null;
-        this._options.animation_duration = lastD;
-        setTimeout(() => {
-          this.move(type, isCheckOnly)
-        }, 100);
-      }, 10);
+      // let lastD = this._options.animation_duration;
+      // this._options.animation_duration = 0;
+      // setTimeout(() => {
+      //   this.moveDone();
+      //   this.moveDone = null;
+      //   this._options.animation_duration = lastD;
+      //   setTimeout(() => {
+      //     this.move(type, isCheckOnly)
+      //   }, 100);
+      // }, 10);
       return
     }
     this.onAnimate = true
