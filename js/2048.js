@@ -48,7 +48,7 @@ class Game2048 {
     this.subscribe(this._options, '_options', 'animation_duration', (newValue, tDom, tName) => {
       tDom.setAttribute(tName, 'transition-duration:' + newValue + 'ms')
     }, el, 'style')
-    this._options.animation_duration = 1000
+    this._options.animation_duration = 300
     this.initTouch()
     for (let y = 0; y < opts.spec; y++) {
       for (let x = 0; x < opts.spec; x++) {
